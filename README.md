@@ -9,7 +9,7 @@
 
 ## What is Clerky?
 
-Clerky is a structured clinical documentation tool that guides medical students and junior doctors through the clerking process — from chief complaint to clinical summary — using intelligent templates, conditional logic, and AI-assisted follow-up questions.
+Clerky is a structured clinical documentation tool that guides medical students and junior doctors through the clerking process; from chief complaint to clinical summary; using intelligent templates, conditional logic, and AI-assisted follow-up questions.
 
 It's built to make clinical training more consistent, thorough, and educationally meaningful.
 
@@ -19,14 +19,14 @@ It's built to make clinical training more consistent, thorough, and educationall
 
 ### 🗂 Structured Clerking Sessions
 - Step-by-step question navigation tailored to the patient's complaint
-- Skip logic for dependent questions — only relevant questions are shown
+- Skip logic for dependent questions; only relevant questions are shown
 - Backward navigation with full question history
-- Autosave with debounced sync — never lose progress
+- Autosave with debounced sync; never lose progress
 - Pauseable elapsed timer to track clerking duration
 
 ### 🧠 AI-Powered Assistance
-- **AI Follow-Up Questions** — when a complaint has no template match, AI generates contextually relevant follow-up questions
-- **Clinical Summary Generation** — AI produces a structured clinical summary from your clerking session
+- **AI Follow-Up Questions**; when a complaint has no template match, AI generates contextually relevant follow-up questions
+- **Clinical Summary Generation**; AI produces a structured clinical summary from your clerking session
 - Discipline-aware section ordering (e.g. surgical vs medical history flow)
 - Prompt caching for token-efficient AI calls
 
@@ -105,7 +105,7 @@ php artisan queue:work
 
 ## Contributing
 
-Clerky is open-source and welcomes contributions — especially question templates, clinical content, and bug fixes.
+Clerky is open-source and welcomes contributions; especially question templates, clinical content, and bug fixes.
 
 1. Fork the repo
 2. Create a feature branch: `git checkout -b feat/your-feature`
