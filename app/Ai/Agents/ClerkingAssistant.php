@@ -62,7 +62,7 @@ class ClerkingAssistant implements Agent, Conversational, HasStructuredOutput, H
             "questions": [{
                 "value": "question specific to this complaint",
                 "field_key": "unique key related to the question being asked. append a random 4-digit number so it is truly unique",
-                "input_type": "MUST (mandatory) be one of these 'text', 'textarea', 'select', 'boolean', 'scale', 'multi_select', 'number', 'key_value'",
+                "input_type": "MUST (mandatory) be one of these 'textarea', 'select', 'boolean', 'scale', 'multi_select', 'number', 'key_value'",
                 "options": "this is an example (MUST be an actual JSON. not a json string) {'none': 'No sputum production','clear': 'Clear','green': 'Green','white': 'White','yellow': 'Yellow','blood_streaked': 'Blood streaked'} for select inputs",
                 "depends_on_complaint_question_field_key": "unique field key of the question it depends on. a question cannot depend on itself.",
                 "depends_on_answer": "what the answer depends on eg `yes` or `no` for booleans and exact texts for text questions and so on",

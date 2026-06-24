@@ -6,8 +6,7 @@ import { passwordSteps } from '@/data/auth'
 import GuestLayout from '@/layouts/GuestLayout.vue'
 import { request } from '@/routes/password'
 import { submit } from '@/routes/password/reset'
-import { Form, Head, Link, router, setLayoutProps } from '@inertiajs/vue3'
-import { toast } from 'vue-sonner'
+import { Form, Head, Link, setLayoutProps, usePage } from '@inertiajs/vue3'
 
 defineOptions({
     layout: GuestLayout,
@@ -20,6 +19,8 @@ setLayoutProps({
     steps: passwordSteps,
     step: 2,
 })
+
+const pageEmail = usePage().props.email as string | null | undefined
 </script>
 
 <template>
@@ -49,7 +50,7 @@ setLayoutProps({
                 label="Email"
                 type="email"
                 :error="errors.email"
-                :value="$page.props.email"
+                :model-value="pageEmail"
                 readonly
             />
 
