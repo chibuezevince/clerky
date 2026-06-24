@@ -1,4 +1,4 @@
-# Clerky 🩺
+# Clerky
 
 > Open-source medical clerking application for medical students and junior doctors.
 
