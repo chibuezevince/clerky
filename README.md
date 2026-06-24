@@ -60,7 +60,6 @@ It's built to make clinical training more consistent, thorough, and educationall
 | Backend | Laravel (PHP) |
 | Frontend | Vue 3 + TypeScript + Inertia.js |
 | Styling | Tailwind CSS |
-| AI | Anthropic Claude (via Laravel AI SDK) |
 | Real-time | Laravel Reverb (WebSockets) |
 | Database | MySQL |
 | Queue | Laravel Queues + Supervisor |
