@@ -46,7 +46,7 @@ const contributeLinks = [
                     </p>
                     <div class="flex gap-3">
                         <a
-                            href="https://github.com"
+                            href="https://github.com/chibuezevince/clerky"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-border bg-brand-surface transition-colors hover:border-white/20"
