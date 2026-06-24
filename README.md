@@ -117,7 +117,7 @@ See `CONTRIBUTING.md` for more details.
 
 ## Support the Project
 
-Clerky is free and open-source. If it's helped you, consider [supporting development](https://clerky.org/donate).
+Clerky is free and open-source. If it's helped you, consider [supporting development](https://paystack.shop/pay/ug8-4-bulr).
 
 ---
 

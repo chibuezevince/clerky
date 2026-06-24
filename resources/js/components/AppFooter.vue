@@ -19,7 +19,7 @@ const platformLinks = [
 const contributeLinks = [
     { name: 'Complaint Questions', href: contribute() },
     { name: 'Section Questions', href: sectionQuestionsIndex() },
-    { name: 'Donate', href: donate() },
+    { name: 'Donate', href: 'https://paystack.shop/pay/ug8-4-bulr' },
 ]
 </script>
 
