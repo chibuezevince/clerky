@@ -35,9 +35,7 @@ import { register } from '@/routes'
                     <h2
                         class="mb-4 text-3xl leading-tight font-extrabold tracking-tight text-white md:text-4xl"
                     >
-                        Built by a <br /><em class="text-brand-yellow italic"
-                            >Clinician</em
-                        >, for Clinicians
+                        Built for Clinicians
                     </h2>
                     <p
                         class="mb-10 text-sm leading-relaxed text-brand-gray-light"

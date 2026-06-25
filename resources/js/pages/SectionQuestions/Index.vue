@@ -150,6 +150,7 @@ function onSearchInput(e: Event) {
                                 :key="template.id"
                                 :href="show(template.slug)"
                                 prefetch
+                                view-transition
                                 class="group flex w-full cursor-pointer items-center gap-5 rounded-2xl border border-white/8 bg-brand-surface/60 px-6 py-4 backdrop-blur-xl transition-all hover:border-white/12 hover:bg-brand-surface/80"
                             >
                                 <div

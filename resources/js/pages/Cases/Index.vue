@@ -129,6 +129,7 @@ const onSearchInput = (e: Event) => {
                     <Link
                         :href="start()"
                         prefetch
+                        view-transition
                         class="inline-flex items-center gap-2 rounded-lg bg-brand-yellow px-5 py-2.5 text-[13px] font-semibold text-brand-bg transition-opacity hover:opacity-85"
                     >
                         <Plus :size="15" />
@@ -159,6 +160,7 @@ const onSearchInput = (e: Event) => {
                     :key="clerking.id"
                     :href="`/dashboard/clerking/${clerking.session_id}`"
                     prefetch
+                    view-transition
                     class="mt-2"
                 >
                     <CaseCard
@@ -173,6 +175,7 @@ const onSearchInput = (e: Event) => {
             v-if="cases.data.length"
             :href="start()"
             prefetch
+            view-transition
             class="fixed right-6 bottom-21 z-20 flex h-14 items-center gap-2 rounded-full bg-brand-yellow pr-5 pl-4 font-bold text-black shadow-lg shadow-black/40 transition-transform hover:scale-105 active:scale-95 md:right-10 md:bottom-10"
         >
             <Plus :size="20" />

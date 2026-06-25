@@ -98,25 +98,25 @@ onUnmounted(() => toastListener())
         ></div>
 
         <div
-            class="pointer-events-none absolute inset-0 opacity-[0.025]"
+            class="pointer-events-none absolute inset-0"
             style="
                 background-image:
                     linear-gradient(
                         to right,
-                        rgb(255 255 255) 1px,
+                        rgba(244, 253, 59, 0.25) 1px,
                         transparent 1px
                     ),
                     linear-gradient(
                         to bottom,
-                        rgb(255 255 255) 1px,
+                        rgba(244, 253, 59, 0.25) 1px,
                         transparent 1px
                     );
-                background-size: 80px 80px;
+                background-size: 140px 140px;
             "
         ></div>
 
         <div
-            class="custom-scroll relative mx-auto grid h-full max-w-400 grid-cols-[220px_1fr_340px] gap-5 overflow-y-auto max-[1100px]:grid-cols-[220px_1fr] max-[720px]:grid-cols-1"
+            class="custom-scroll relative mx-auto grid h-full max-w-400 grid-cols-[220px_1fr_340px] gap-5 overflow-y-auto max-[1100px]:grid-cols-[220px_1fr] max-[720px]:grid-cols-1 max-[720px]:pb-24"
         >
             <Sidebar
                 :nav-items="navItems"

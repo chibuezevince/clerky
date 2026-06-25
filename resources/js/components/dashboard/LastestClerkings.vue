@@ -65,6 +65,7 @@ const clerkings = computed(() =>
             <Link
                 :href="all()"
                 prefetch
+                view-transition
                 class="cursor-pointer text-[12px] text-brand-gray hover:text-brand-yellow"
             >
                 View all →

@@ -83,6 +83,7 @@ button {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
+
     to {
         opacity: 0;
         transform: translateY(-10px) scale(0.98);
@@ -94,6 +95,7 @@ button {
         opacity: 0;
         transform: translateY(12px) scale(0.99);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -101,6 +103,7 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     ::view-transition-old(root),
     ::view-transition-new(root) {
         animation-duration: 0.01ms;
@@ -247,6 +250,10 @@ button {
 
 .revealed .reveal-stagger>*:nth-child(6) {
     animation-delay: 500ms;
+}
+
+.revealed .reveal-stagger>*:nth-child(7) {
+    animation-delay: 600ms;
 }
 
 .revealed .reveal-stagger>*:nth-child(7) {

@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { glass } from '@/data/dashboard.js'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ArrowLeftCircle } from '@lucide/vue'
 import {
     ClerkingSection,
@@ -54,6 +54,24 @@ const startEdit = (question: UnitQuestion) => {
 const closeEdit = () => {
     editingQuestion.value = null
 }
+
+const searchQuery = ref('')
+
+const filteredSections = computed(() => {
+    if (!searchQuery.value.trim()) return props.sections
+
+    const query = searchQuery.value.toLowerCase()
+    const result: Record<string, (typeof props.sections)[string]> = {}
+
+    for (const [section, questions] of Object.entries(props.sections)) {
+        const filtered = questions.filter((q) =>
+            q.question.toLowerCase().includes(query),
+        )
+        if (filtered.length) result[section] = filtered
+    }
+
+    return result
+})
 </script>
 
 <template>
@@ -65,6 +83,7 @@ const closeEdit = () => {
                 <Link
                     :href="contribute()"
                     prefetch
+                    view-transition
                     class="flex w-fit items-center gap-1.5 font-semibold text-brand-gray transition-colors hover:text-neutral-50"
                 >
                     <ArrowLeftCircle :size="25" />
@@ -99,8 +118,30 @@ const closeEdit = () => {
                     />
 
                     <div class="flex flex-col gap-3">
+                        <div class="relative mb-1">
+                            <svg
+                                class="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-white/30"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                                />
+                            </svg>
+                            <input
+                                v-model="searchQuery"
+                                type="text"
+                                placeholder="Search questions..."
+                                class="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pr-4 pl-10 text-sm text-white transition-colors outline-none placeholder:text-white/25 focus:border-brand-yellow/40"
+                            />
+                        </div>
+
                         <div
-                            v-for="(questions, sectionName) in sections"
+                            v-for="(questions, sectionName) in filteredSections"
                             :key="sectionName"
                             :class="[glass, 'overflow-hidden']"
                         >
@@ -114,6 +155,12 @@ const closeEdit = () => {
                                 :clerking-sections="clerkingSections"
                             />
                         </div>
+                        <p
+                            v-if="Object.keys(filteredSections).length === 0"
+                            class="py-8 text-center text-sm text-white/30"
+                        >
+                            No questions match "{{ searchQuery }}"
+                        </p>
                     </div>
                 </div>
 

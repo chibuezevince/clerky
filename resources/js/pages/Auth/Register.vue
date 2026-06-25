@@ -116,6 +116,7 @@ setLayoutProps({
         <Link
             :href="login()"
             prefetch
+            view-transition
             class="font-medium text-white hover:text-brand-yellow"
             >Sign in</Link
         >

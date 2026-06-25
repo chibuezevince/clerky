@@ -1,38 +1,101 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { register } from '@/routes'
+import { Link } from '@inertiajs/vue3'
+
+const hoveredCard = ref<number | null>(null)
+const cursorPos = ref({ x: 50, y: 50 })
+
+const onCardMouseMove = (e: MouseEvent, index: number) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    cursorPos.value = {
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+    }
+    hoveredCard.value = index
+}
+
+const onCardMouseLeave = () => (hoveredCard.value = null)
+</script>
+
 <template>
     <section
         id="features"
-        class="relative z-10 px-8 py-28 md:px-16"
+        class="noise-overlay relative z-10 px-8 py-28 md:px-16"
     >
         <div class="mx-auto max-w-7xl">
-            <div
-                class="mb-16 flex flex-col justify-between gap-8 lg:flex-row lg:items-end"
-            >
+            <div class="mb-16">
                 <h2
-                    class="text-4xl leading-tight font-extrabold tracking-tight text-white md:text-5xl"
+                    class="mb-4 text-4xl leading-tight font-extrabold tracking-tight text-white md:text-5xl"
                 >
-                    Clinical <em class="text-brand-yellow italic">Expertise</em>
+                    Refining Clinical
+                    <em
+                        class="bg-gradient-to-r from-brand-yellow via-yellow-200 to-brand-yellow bg-clip-text text-transparent italic"
+                        >Expertise</em
+                    >
                 </h2>
-                <p
-                    class="max-w-md text-sm leading-relaxed text-brand-gray-light"
-                >
-                    Clerky is built by a clinician, for clinicians. Tailored
-                    modules for every major specialty ensure no detail is missed
-                    at the bedside.
-                </p>
+                <div
+                    class="reveal-up mb-8 h-1 w-24 rounded-full bg-gradient-to-r from-brand-yellow to-transparent"
+                ></div>
+                <div class="flex flex-col items-start gap-5">
+                    <p
+                        class="max-w-md text-sm leading-relaxed text-brand-gray-light"
+                    >
+                        Clerky adapts to every presenting complaint with
+                        specialty-specific templates, asks the right questions,
+                        then generates a structured summary, so you spend less
+                        time on paperwork and more time at the bedside.
+                    </p>
+                    <Link
+                        :href="register()"
+                        view-transition
+                        class="inline-flex items-center gap-3 rounded-full bg-brand-yellow px-8 py-3.5 text-sm font-extrabold text-black transition-all duration-300 hover:bg-brand-yellow/90 hover:shadow-[0_0_40px_rgba(244,253,59,0.15)] active:scale-95"
+                    >
+                        Start clerking
+                        <svg
+                            class="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                            />
+                        </svg>
+                    </Link>
+                </div>
             </div>
 
             <div
                 class="reveal-stagger grid auto-rows-[180px] grid-cols-4 gap-4 lg:grid-cols-12"
             >
                 <div
-                    class="group reveal-up relative col-span-4 row-span-2 flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-8 transition-all duration-500 hover:border-brand-yellow/50 hover:shadow-[0_0_30px_rgba(244,253,59,0.05)] active:scale-[0.98] lg:col-span-5"
+                    @mousemove="(e) => onCardMouseMove(e, 0)"
+                    @mouseleave="onCardMouseLeave"
+                    class="group reveal-up relative col-span-4 row-span-2 flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-8 transition-all duration-500 hover:border-brand-yellow/50 hover:shadow-[0_0_30px_rgba(244,253,59,0.05),inset_0_0_0_1px_rgba(244,253,59,0.08)] active:scale-[0.98] lg:col-span-5"
                 >
+                    <span
+                        class="pointer-events-none absolute top-4 right-4 text-[44px] leading-none font-black text-white/5 select-none"
+                        >01</span
+                    >
+
+                    <div
+                        v-show="hoveredCard === 0"
+                        class="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                        :style="{
+                            background: `radial-gradient(600px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(244,253,59,0.06), transparent 50%)`,
+                        }"
+                    ></div>
+
                     <div
                         class="pointer-events-none absolute -right-16 -bottom-16 h-64 w-64 rounded-full bg-brand-yellow/3 blur-3xl transition-all duration-700 group-hover:scale-110 group-hover:bg-brand-yellow/10"
                     ></div>
                     <div class="relative z-10 flex items-start justify-between">
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-yellow/20 bg-brand-yellow/10 transition-all duration-500 group-hover:rotate-6 group-hover:bg-brand-yellow/20"
+                            class="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-yellow/20 bg-brand-yellow/10 transition-all duration-500 group-hover:rotate-6 group-hover:bg-brand-yellow/20"
                         >
                             <svg
                                 class="h-7 w-7 text-brand-yellow"
@@ -97,10 +160,25 @@
                 </div>
 
                 <div
-                    class="group reveal-up col-span-4 row-span-1 flex cursor-pointer items-center gap-6 rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 hover:bg-brand-surface/80 active:scale-95 lg:col-span-4"
+                    @mousemove="(e) => onCardMouseMove(e, 1)"
+                    @mouseleave="onCardMouseLeave"
+                    class="group reveal-up relative col-span-4 row-span-1 flex cursor-pointer items-center gap-6 overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 hover:bg-brand-surface/80 active:scale-95 lg:col-span-4"
                 >
+                    <span
+                        class="pointer-events-none absolute top-3 right-4 text-[28px] leading-none font-black text-white/5 select-none"
+                        >02</span
+                    >
+
                     <div
-                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all group-hover:scale-110 group-hover:border-brand-yellow/30"
+                        v-show="hoveredCard === 1"
+                        class="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                        :style="{
+                            background: `radial-gradient(500px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(244,253,59,0.06), transparent 50%)`,
+                        }"
+                    ></div>
+
+                    <div
+                        class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all group-hover:scale-110 group-hover:border-brand-yellow/30"
                     >
                         <svg
                             class="h-6 w-6 text-white/60 transition-colors group-hover:text-brand-yellow"
@@ -131,7 +209,7 @@
                         </p>
                     </div>
                     <svg
-                        class="ml-auto h-5 w-5 shrink-0 transform text-brand-border transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-brand-yellow"
+                        class="arrow-fade ml-auto h-5 w-5 shrink-0 transform text-brand-border transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-brand-yellow"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="2"
@@ -142,10 +220,25 @@
                 </div>
 
                 <div
-                    class="group reveal-up col-span-4 row-span-1 flex cursor-pointer flex-col justify-between rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 active:scale-95 lg:col-span-3"
+                    @mousemove="(e) => onCardMouseMove(e, 2)"
+                    @mouseleave="onCardMouseLeave"
+                    class="group reveal-up relative col-span-4 row-span-1 flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 active:scale-95 lg:col-span-3"
                 >
+                    <span
+                        class="pointer-events-none absolute top-2 right-3 text-[24px] leading-none font-black text-white/5 select-none"
+                        >03</span
+                    >
+
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all group-hover:rotate-12 group-hover:border-brand-yellow/30"
+                        v-show="hoveredCard === 2"
+                        class="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                        :style="{
+                            background: `radial-gradient(400px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(244,253,59,0.06), transparent 50%)`,
+                        }"
+                    ></div>
+
+                    <div
+                        class="relative flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all group-hover:rotate-12 group-hover:border-brand-yellow/30"
                     >
                         <svg
                             class="h-5 w-5 text-white/60 transition-colors group-hover:text-brand-yellow"
@@ -174,10 +267,25 @@
                 </div>
 
                 <div
-                    class="group reveal-up col-span-4 row-span-1 flex cursor-pointer items-center gap-5 rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 active:scale-95 lg:col-span-7"
+                    @mousemove="(e) => onCardMouseMove(e, 3)"
+                    @mouseleave="onCardMouseLeave"
+                    class="group reveal-up relative col-span-4 row-span-1 flex cursor-pointer items-center gap-5 overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 active:scale-95 lg:col-span-7"
                 >
+                    <span
+                        class="pointer-events-none absolute top-3 right-4 text-[28px] leading-none font-black text-white/5 select-none"
+                        >04</span
+                    >
+
                     <div
-                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all group-hover:scale-110 group-hover:border-brand-yellow/30"
+                        v-show="hoveredCard === 3"
+                        class="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                        :style="{
+                            background: `radial-gradient(500px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(244,253,59,0.06), transparent 50%)`,
+                        }"
+                    ></div>
+
+                    <div
+                        class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all group-hover:scale-110 group-hover:border-brand-yellow/30"
                     >
                         <svg
                             class="h-6 w-6 text-white/60 transition-colors group-hover:text-brand-yellow"
@@ -203,7 +311,7 @@
                         </p>
                     </div>
                     <svg
-                        class="ml-auto h-5 w-5 shrink-0 transform text-brand-border transition-all duration-500 group-hover:rotate-45 group-hover:text-brand-yellow"
+                        class="arrow-fade ml-auto h-5 w-5 shrink-0 transform text-brand-border transition-all duration-500 group-hover:rotate-45 group-hover:text-brand-yellow"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="2"
@@ -214,10 +322,25 @@
                 </div>
 
                 <div
-                    class="group reveal-up col-span-4 row-span-1 flex cursor-pointer items-center gap-6 overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:border-brand-yellow/50 active:scale-[0.98] lg:col-span-5"
+                    @mousemove="(e) => onCardMouseMove(e, 4)"
+                    @mouseleave="onCardMouseLeave"
+                    class="group reveal-up relative col-span-4 row-span-1 flex cursor-pointer items-center gap-6 overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:border-brand-yellow/50 active:scale-[0.98] lg:col-span-5"
                 >
+                    <span
+                        class="pointer-events-none absolute top-3 right-4 text-[28px] leading-none font-black text-white/5 select-none"
+                        >05</span
+                    >
+
                     <div
-                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all group-hover:scale-110 group-hover:border-brand-yellow/30"
+                        v-show="hoveredCard === 4"
+                        class="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                        :style="{
+                            background: `radial-gradient(500px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(244,253,59,0.06), transparent 50%)`,
+                        }"
+                    ></div>
+
+                    <div
+                        class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all group-hover:scale-110 group-hover:border-brand-yellow/30"
                     >
                         <svg
                             class="h-6 w-6 text-white/60 transition-colors group-hover:text-brand-yellow"
@@ -243,7 +366,7 @@
                         </p>
                     </div>
                     <svg
-                        class="ml-auto h-5 w-5 shrink-0 transform text-brand-border transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-brand-yellow"
+                        class="arrow-fade ml-auto h-5 w-5 shrink-0 transform text-brand-border transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-brand-yellow"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="2"
@@ -254,10 +377,25 @@
                 </div>
 
                 <div
-                    class="group reveal-up col-span-4 row-span-1 flex cursor-pointer flex-col justify-between rounded-3xl bg-brand-yellow p-7 shadow-[0_0_40px_rgba(244,253,59,0.1)] transition-all duration-500 hover:scale-105 hover:rotate-1 lg:col-span-4"
+                    @mousemove="(e) => onCardMouseMove(e, 5)"
+                    @mouseleave="onCardMouseLeave"
+                    class="group reveal-up relative col-span-4 row-span-1 flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl bg-brand-yellow p-7 shadow-[0_0_40px_rgba(244,253,59,0.1)] transition-all duration-500 hover:scale-105 hover:rotate-1 lg:col-span-4"
                 >
+                    <span
+                        class="pointer-events-none absolute top-2 right-3 text-[24px] leading-none font-black text-black/5 select-none"
+                        >06</span
+                    >
+
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-black/10"
+                        v-show="hoveredCard === 5"
+                        class="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                        :style="{
+                            background: `radial-gradient(400px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(0,0,0,0.1), transparent 50%)`,
+                        }"
+                    ></div>
+
+                    <div
+                        class="relative flex h-10 w-10 items-center justify-center rounded-lg bg-black/10"
                     >
                         <svg
                             class="h-5 w-5 text-black"
@@ -284,10 +422,25 @@
                 </div>
 
                 <div
-                    class="group reveal-up col-span-2 row-span-1 flex cursor-pointer flex-col justify-between rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 active:scale-95 lg:col-span-3"
+                    @mousemove="(e) => onCardMouseMove(e, 6)"
+                    @mouseleave="onCardMouseLeave"
+                    class="group reveal-up relative col-span-2 row-span-1 flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-brand-border bg-brand-surface p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/50 active:scale-95 lg:col-span-3"
                 >
+                    <span
+                        class="pointer-events-none absolute top-2 right-3 text-[24px] leading-none font-black text-white/5 select-none"
+                        >07</span
+                    >
+
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all group-hover:rotate-6 group-hover:border-brand-yellow/30"
+                        v-show="hoveredCard === 6"
+                        class="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                        :style="{
+                            background: `radial-gradient(400px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(244,253,59,0.06), transparent 50%)`,
+                        }"
+                    ></div>
+
+                    <div
+                        class="relative flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all group-hover:rotate-6 group-hover:border-brand-yellow/30"
                     >
                         <svg
                             class="h-5 w-5 text-white/60 transition-colors group-hover:text-brand-yellow"
@@ -318,3 +471,63 @@
         </div>
     </section>
 </template>
+
+<style scoped>
+.noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.025;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+}
+
+.noise-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    pointer-events: none;
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(244, 253, 59, 0.15) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(244, 253, 59, 0.15) 1px,
+            transparent 1px
+        );
+    background-size: 5rem 5rem;
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 15%,
+        black 85%,
+        transparent
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 15%,
+        black 85%,
+        transparent
+    );
+}
+
+.arrow-fade {
+    opacity: 0.4;
+    transition:
+        opacity 0.4s ease,
+        transform 0.5s ease,
+        color 0.5s ease;
+}
+
+.group:hover .arrow-fade {
+    opacity: 1;
+}
+</style>

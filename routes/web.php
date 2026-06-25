@@ -136,4 +136,3 @@ Route::middleware('auth')->group(function () {
         return back();
     })->name('notifications.read-all');
 });
-

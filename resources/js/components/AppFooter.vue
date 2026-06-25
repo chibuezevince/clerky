@@ -94,6 +94,7 @@ const contributeLinks = [
                             <Link
                                 :href="link.href"
                                 prefetch
+                                view-transition
                                 class="text-sm text-brand-gray transition-colors hover:text-brand-yellow"
                             >
                                 {{ link.name }}
@@ -126,6 +127,7 @@ const contributeLinks = [
                                 v-else
                                 :href="link.href as any"
                                 prefetch
+                                view-transition
                                 class="text-sm text-brand-gray transition-colors hover:text-brand-yellow"
                             >
                                 {{ link.name }}
@@ -136,7 +138,7 @@ const contributeLinks = [
             </div>
 
             <div
-                class="flex flex-col items-center justify-between gap-6 border-t border-brand-border pt-10 md:flex-row"
+                class="flex flex-col items-center justify-between gap-6 border-t border-brand-border pt-16 md:flex-row"
             >
                 <p
                     class="text-[10px] font-bold tracking-widest text-brand-gray uppercase"

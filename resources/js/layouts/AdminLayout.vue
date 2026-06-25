@@ -49,6 +49,7 @@ const glass =
                 <Link
                     :href="dashboard()"
                     prefetch
+                    view-transition
                     class="mb-6 flex items-center gap-2.5"
                 >
                     <div
@@ -89,6 +90,7 @@ const glass =
                         :key="item.id"
                         :href="item.url"
                         prefetch
+                        view-transition
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-bold transition-all"
                         :class="
                             activeNav === item.url.url
@@ -108,6 +110,7 @@ const glass =
                     <Link
                         :href="dashboard()"
                         prefetch
+                        view-transition
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-bold text-brand-gray transition-all hover:bg-white/4 hover:text-white"
                     >
                         <ArrowLeft :size="18" />
@@ -117,6 +120,7 @@ const glass =
                         :href="logout()"
                         method="get"
                         as="button"
+                        view-transition
                         class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-bold text-rose-400/60 transition-all hover:bg-rose-400/10 hover:text-rose-400"
                     >
                         <LogOut :size="18" />
@@ -161,6 +165,7 @@ const glass =
                     <Link
                         :href="dashboard()"
                         prefetch
+                        view-transition
                         @click="closeMenu"
                         class="flex items-center justify-center gap-2.5"
                     >
@@ -176,6 +181,7 @@ const glass =
                             :key="item.id"
                             :href="item.url"
                             prefetch
+                            view-transition
                             @click="closeMenu"
                             class="flex items-center justify-center gap-3 rounded-xl px-6 py-3.5 text-lg font-bold transition-all"
                             :class="
@@ -196,6 +202,7 @@ const glass =
                         <Link
                             :href="dashboard()"
                             prefetch
+                            view-transition
                             @click="closeMenu"
                             class="flex items-center justify-center gap-3 rounded-xl px-6 py-3 text-base font-bold text-brand-gray transition-colors hover:text-white"
                         >
@@ -206,6 +213,7 @@ const glass =
                             :href="logout()"
                             method="get"
                             as="button"
+                            view-transition
                             @click="closeMenu"
                             class="flex items-center justify-center gap-3 rounded-xl px-6 py-3 text-base font-bold text-rose-400/60 transition-colors hover:text-rose-400"
                         >

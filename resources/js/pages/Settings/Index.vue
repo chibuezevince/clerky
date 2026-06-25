@@ -94,6 +94,7 @@ const initials = computed(() =>
         <Link
             :href="dashboard()"
             prefetch
+            view-transition
             class="flex w-fit items-center gap-1.5 font-semibold text-brand-gray transition-colors hover:text-neutral-50 lg:hidden"
         >
             <ArrowLeftCircle :size="25" />

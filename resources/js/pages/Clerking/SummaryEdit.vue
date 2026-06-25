@@ -135,6 +135,7 @@ const isActive = (name: string, attrs?: Record<string, unknown>) =>
                         <Link
                             :href="dashboard()"
                             prefetch
+                            view-transition
                             class="flex items-center gap-1 text-xs font-bold text-brand-gray hover:text-neutral-50 md:hidden"
                         >
                             <ArrowLeft :size="14" />

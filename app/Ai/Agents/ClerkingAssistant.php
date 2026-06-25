@@ -34,6 +34,12 @@ class ClerkingAssistant implements Agent, Conversational, HasStructuredOutput, H
         Specialty sections:
         {$specialtySections}
 
+        - Let the questions be what a lay patient can understand because they are thepeople the questions you generate will be asked.
+        - Do not generate a question at all if it is entirely irrelevant for the given patient's age and sex — filter it out completely.
+        - Always ask weeks and never trimester for exactness.
+        - Again, generate questions specific for a particular sex, for example, there is no need for scrotum questins to be asked for the female sex and so on.
+        - Questions should be sequential, if you ask a question, ask its follow up instantly to better understand the full scope of the question. Like for example, if you ask if a patient attended antenatal, also ask a follow up that depends on the trueness or falseness of the question. Always follow questions up till they parent is exhausted.
+        - Do not ask for diagnosis as questions, instead ask for symptoms, always ask for symptoms. For example, instead of asking if the current patient has PID ask for symptoms related to it. 
         Your tasks:
         0: Be as verbose and clear as you can
         1. Decide which specialty template the complaint belongs to (use the specialty list to infer this; do not output the template name, only use it to pick the right sections).
@@ -54,7 +60,7 @@ class ClerkingAssistant implements Agent, Conversational, HasStructuredOutput, H
             - For each question, set "min_age" and "max_age" if the question is only relevant within a specific age range (null means no bound).
             - Set "sex" to "male", "female", or "both" depending on who the question applies to.
             - Do not generate a question at all if it is entirely irrelevant for the given patient's age and sex — filter it out completely.
-
+            
         Return ONLY valid JSON, no markdown, no preamble:
         {"questions": [
           {
