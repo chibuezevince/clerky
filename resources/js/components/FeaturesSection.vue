@@ -30,12 +30,12 @@ const onCardMouseLeave = () => (hoveredCard.value = null)
                 >
                     Refining Clinical
                     <em
-                        class="bg-gradient-to-r from-brand-yellow via-yellow-200 to-brand-yellow bg-clip-text text-transparent italic"
+                        class="bg-linear-to-r from-brand-yellow via-yellow-200 to-brand-yellow bg-clip-text text-transparent italic"
                         >Expertise</em
                     >
                 </h2>
                 <div
-                    class="reveal-up mb-8 h-1 w-24 rounded-full bg-gradient-to-r from-brand-yellow to-transparent"
+                    class="reveal-up mb-8 h-1 w-24 rounded-full bg-linear-to-r from-brand-yellow to-transparent"
                 ></div>
                 <div class="flex flex-col items-start gap-5">
                     <p
