@@ -15,8 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('type');
             $table->morphs('notifiable');
-            $table->string('title');
-            $table->string('message');
             $table->json('data')->nullable();
             $table->timestamp('read_at')->nullable();
             $table->timestamps();

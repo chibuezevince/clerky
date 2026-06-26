@@ -26,7 +26,7 @@ const shortEmail = computed(() => {
 })
 </script>
 <template>
-    <header :class="[glass, 'relative p-5 sm:p-8 lg:mt-5']">
+    <header :class="[glass, 'relative z-50 p-5 sm:p-8 lg:mt-5']">
         <div class="relative flex flex-col gap-10">
             <div
                 class="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8"

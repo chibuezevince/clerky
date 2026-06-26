@@ -40,7 +40,7 @@ class OtpManager
     public function send(bool $queue = true)
     {
         $queue
-            ? static::$otp->user->notify(new OtpNotification(static::$otp)->onQueue('emails'))
+            ? static::$otp->user->notify(new OtpNotification(static::$otp))
             : static::$otp->user->notify(new OtpNotification(static::$otp));
 
         return static::$otp;

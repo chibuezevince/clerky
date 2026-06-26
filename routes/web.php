@@ -17,6 +17,9 @@ use App\Http\Middleware\EnsureSetupIsCompleted;
 use App\Http\Middleware\EnsureUserIsContributor;
 use App\Models\Clerking;
 use App\Models\ComplaintTemplate;
+use App\Models\User;
+use App\Http\Controllers\Home\NotificationsController;
+use App\Notifications\User\SummaryGenerated;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 
@@ -128,19 +131,14 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
 });
 
 Route::middleware('auth')->group(function () {
-    Route::patch('/notifications/{notification}/read', function (string $id) {
-        auth()->user()->notifications()->where('id', $id)->update(['read_at' => now()]);
-        return back();
-    })->name('notifications.read');
-
-    Route::patch('/notifications/read-all', function () {
-        auth()->user()->unreadNotifications()->update(['read_at' => now()]);
-        return back();
-    })->name('notifications.read-all');
+    Route::patch('/notifications/{notification}/read', [NotificationsController::class, 'markAsRead'])->name('notifications.read');
+    Route::patch('/notifications/read-all', [NotificationsController::class, 'markAllAsRead'])->name('notifications.read-all');
+    Route::delete('/notifications/all', [NotificationsController::class, 'destroyAll'])->name('notifications.destroy-all');
+    Route::delete('/notifications/{notification}', [NotificationsController::class, 'destroy'])->name('notifications.destroy');
 });
 
 Route::get('/test', function () {
-    $clerking = Clerking::where('session_id', '597e54f6-bd33-4ec9-ad2d-3b2853298029')->first();
+    $user = User::first();
 
-    return ;
+    $user->notify(new SummaryGenerated(Clerking::first()));
 });

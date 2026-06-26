@@ -50,7 +50,7 @@ class PasswordRecoveryController extends Controller
 
                 $user->save();
 
-                $user->notify(new PasswordChanged()->onQueue('emails'));
+                $user->notify(new PasswordChanged());
                 event(new PasswordReset($user));
             }
         );

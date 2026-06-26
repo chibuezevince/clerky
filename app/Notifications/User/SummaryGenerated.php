@@ -14,7 +14,6 @@ class SummaryGenerated extends Notification implements ShouldQueue {
     public function __construct(
         public Clerking $clerking,
     ) {
-        $this->onQueue('emails');
     }
 
     public function via(object $notifiable): array {
@@ -35,9 +34,7 @@ class SummaryGenerated extends Notification implements ShouldQueue {
         return [
             'title' => 'Summary Ready',
             'message' => "AI summary for case {$this->clerking->case_number} is ready.",
-            'data' => [
-                'url' => route('clerking.summary.edit', $this->clerking),
-            ],
+            'url' => route('clerking.summary.edit', $this->clerking, false),
         ];
     }
 }

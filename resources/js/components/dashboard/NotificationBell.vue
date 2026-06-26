@@ -2,7 +2,7 @@
 import { router, usePage } from '@inertiajs/vue3'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Transition } from 'vue'
-import { Bell, CheckCheck } from '@lucide/vue'
+import { Bell, CheckCheck, Trash2 } from '@lucide/vue'
 import { readAll } from '@/routes/notifications'
 import FormattedDate from '@/components/dashboard/FormattedDate.vue'
 import type { AppNotification } from '@/types/dashboard'
@@ -36,7 +36,20 @@ const markAllAsRead = () => {
     })
 }
 
+const deleteNotification = (id: string) => {
+    router.delete(`/notifications/${id}`, { preserveScroll: true })
+}
+
+const clearAll = () => {
+    router.delete('/notifications/all', { preserveScroll: true })
+}
+
 const toggle = () => (open.value = !open.value)
+
+const handleNotificationClick = (notification: AppNotification) => {
+    if (!notification.read_at) markAsRead(notification.id)
+    if (notification.data?.url) router.get(notification.data.url)
+}
 
 const handleClickOutside = (e: MouseEvent) => {
     const target = e.target as HTMLElement
@@ -78,53 +91,82 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
                     <span class="text-sm font-bold text-white"
                         >Notifications</span
                     >
-                    <button
-                        v-if="unreadCount > 0"
-                        @click="markAllAsRead"
-                        class="flex items-center gap-1 text-[11px] text-brand-gray transition-colors hover:text-white"
-                    >
-                        <CheckCheck :size="13" />
-                        Mark all read
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button
+                            v-if="notifications.length > 0 && unreadCount === 0"
+                            @click.stop="clearAll"
+                            class="flex items-center gap-1 text-[11px] text-red-400/60 transition-colors hover:text-red-400"
+                        >
+                            <Trash2 :size="12" />
+                            Clear all
+                        </button>
+                        <button
+                            v-if="unreadCount > 0"
+                            @click="markAllAsRead"
+                            class="flex items-center gap-1 text-[11px] text-brand-gray transition-colors hover:text-white"
+                        >
+                            <CheckCheck :size="13" />
+                            Mark all read
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex max-h-80 flex-col overflow-y-auto">
                     <div
-                        v-for="n in notifications"
-                        :key="n.id"
+                        v-for="notification in notifications"
+                        :key="notification.id"
                         class="group flex cursor-pointer items-start gap-3 border-b border-white/5 px-4 py-3.5 transition-colors hover:bg-white/2"
-                        :class="!n.read_at ? 'bg-brand-yellow/1.5' : ''"
-                        @click="!n.read_at && markAsRead(n.id)"
+                        :class="
+                            !notification.read_at ? 'bg-brand-yellow/1.5' : ''
+                        "
+                        @click="handleNotificationClick(notification)"
                     >
-                        <div
-                            class="mt-1.5 shrink-0"
-                            :class="
-                                !n.read_at
-                                    ? 'h-2 w-2 rounded-full bg-brand-yellow'
-                                    : 'h-2 w-2 rounded-full bg-white/10'
-                            "
-                        />
+                        <div class="mt-1.5 flex shrink-0 items-center gap-2">
+                            <div
+                                :class="
+                                    !notification.read_at
+                                        ? 'h-2 w-2 rounded-full bg-brand-yellow'
+                                        : 'h-2 w-2 rounded-full bg-white/10'
+                                "
+                            />
+                            <button
+                                @click.stop="
+                                    deleteNotification(notification.id)
+                                "
+                                class="opacity-0 transition-opacity group-hover:opacity-100"
+                            >
+                                <Trash2
+                                    :size="12"
+                                    class="text-red-400/50 hover:text-red-400"
+                                />
+                            </button>
+                        </div>
+
                         <div class="min-w-0 flex-1">
                             <p
                                 class="truncate text-[13px] font-semibold"
                                 :class="
-                                    !n.read_at ? 'text-white' : 'text-white/50'
+                                    !notification.read_at
+                                        ? 'text-white'
+                                        : 'text-white/50'
                                 "
                             >
-                                {{ n.title }}
+                                {{ notification.title }}
                             </p>
                             <p
                                 class="mt-0.5 line-clamp-2 text-[12px] leading-relaxed"
                                 :class="
-                                    !n.read_at
+                                    !notification.read_at
                                         ? 'text-white/60'
                                         : 'text-white/30'
                                 "
                             >
-                                {{ n.message }}
+                                {{ notification.message }}
                             </p>
                             <p class="mt-1 text-[11px] text-white/20">
-                                <FormattedDate :date="n.created_at" />
+                                <FormattedDate
+                                    :date="notification.created_at"
+                                />
                             </p>
                         </div>
                     </div>
