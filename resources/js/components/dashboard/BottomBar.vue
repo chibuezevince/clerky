@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NavItem } from '@/types/dashboard'
-import { Link } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
@@ -166,12 +166,14 @@ const dockEntries = computed((): DockEntry[] => {
                                 >{{ entry.label }}</span
                             >
                         </button>
-                        <Link
+                        <button
                             v-else-if="entry.kind === 'link'"
-                            :href="entry.url"
                             :title="entry.label"
-                            view-transition
-                            prefetch
+                            @click="
+                                router.get(entry.url, undefined, {
+                                    viewTransition: true,
+                                })
+                            "
                             class="flex flex-col items-center gap-1 rounded-[20px] px-3 py-2 transition-colors duration-200"
                             :class="
                                 entry.active
@@ -212,7 +214,7 @@ const dockEntries = computed((): DockEntry[] => {
                                 "
                                 >{{ entry.label }}</span
                             >
-                        </Link>
+                        </button>
                     </template>
                 </div>
             </Transition>
@@ -248,12 +250,14 @@ const dockEntries = computed((): DockEntry[] => {
                         v-for="entry in dockEntries"
                         :key="entry.id"
                     >
-                        <Link
+                        <button
                             v-if="entry.kind === 'link'"
-                            :href="entry.url"
                             :title="entry.label"
-                            view-transition
-                            prefetch
+                            @click="
+                                router.get(entry.url, undefined, {
+                                    viewTransition: true,
+                                })
+                            "
                             class="flex flex-col items-center gap-1 rounded-[20px] px-3 py-2 transition-colors duration-200"
                             :class="
                                 entry.active
@@ -298,7 +302,7 @@ const dockEntries = computed((): DockEntry[] => {
                                 "
                                 >{{ entry.label }}</span
                             >
-                        </Link>
+                        </button>
                     </template>
                 </div>
             </Transition>

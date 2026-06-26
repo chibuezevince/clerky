@@ -2,7 +2,6 @@
 import AppLayout from '@/layouts/AppLayout.vue'
 import { Head, usePage } from '@inertiajs/vue3'
 import { glass } from '@/data/dashboard.js'
-import type { Component } from 'vue'
 
 import { Baby, Venus, Stethoscope, Scissors, HeartPulse } from '@lucide/vue'
 import { ClerkingUnit } from '@/types/dashboard'
@@ -24,11 +23,13 @@ units = units.map((unit: ClerkingUnit) => ({
 <template>
     <Head title="Start Clerking" />
 
-    <main class="mt-5 col-span-1 min-h-[calc(100vh-200px)] min-[1101px]:col-span-2">
+    <main
+        class="col-span-1 mt-5 h-full min-h-[calc(100vh-200px)] pb-5 max-[720px]:pb-24 min-[1101px]:col-span-2"
+    >
         <section
             :class="[
                 glass,
-                'group/container h-[95vh] relative flex flex-col items-center px-6 py-6 lg:justify-center lg:px-12 lg:py-12',
+                'group/container relative flex flex-col items-center px-6 py-6 pb-24 lg:h-[95vh] lg:justify-center lg:px-12 lg:py-12',
             ]"
         >
             <div

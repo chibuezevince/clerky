@@ -53,9 +53,7 @@ const handleNotificationClick = (notification: AppNotification) => {
 
 const handleClickOutside = (e: MouseEvent) => {
     const target = e.target as HTMLElement
-    if (!target.closest('[data-notification-bell]')) {
-        open.value = false
-    }
+    if (!target.closest('[data-notification-bell]')) open.value = false
 }
 
 onMounted(() => document.addEventListener('click', handleClickOutside))
