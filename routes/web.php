@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Http\Controllers\Home\NotificationsController;
 use App\Notifications\User\SummaryGenerated;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Home')->name('home');
@@ -136,8 +137,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/notifications/{notification}', [NotificationsController::class, 'destroy'])->name('notifications.destroy');
 });
 
-Route::get('/test', function () {
-    $user = User::first();
+Route::get('/queue', function () {
+    Artisan::call('queue:work', ['--stop-when-empty' => true, '--max-time' => 30]);
 
-    $user->notify(new SummaryGenerated(Clerking::first()));
+    return response()->json([
+        'output' => Artisan::output(),
+    ]);
 });

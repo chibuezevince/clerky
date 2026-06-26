@@ -27,7 +27,6 @@ export const useSummaryListeners = (
                         `clerking.${summary.session_id}`,
                         '.summary.ready',
                         ({ clerking, generated }) => {
-                            console.log(clerking, generated)
                             if (!generated) {
                                 const generatingIds = loadGeneratingIds()
                                 generatingIds.delete(clerking.id)
