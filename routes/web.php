@@ -16,7 +16,6 @@ use App\Http\Controllers\Home\DashboardController;
 use App\Http\Middleware\EnsureSetupIsCompleted;
 use App\Http\Middleware\EnsureUserIsContributor;
 use App\Models\Clerking;
-use App\Models\ComplaintTemplate;
 use App\Models\User;
 use App\Http\Controllers\Home\NotificationsController;
 use App\Notifications\User\SummaryGenerated;

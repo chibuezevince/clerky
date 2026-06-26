@@ -7,13 +7,8 @@ configureEcho({
 
 const appName = import.meta.env.VITE_APP_NAME || 'Clerky'
 createInertiaApp({
-    pages: {
-        path: './pages',
-        lazy: false,
-    },
     title: (title) => (title ? `${title} - ${appName}` : appName),
     progress: {
-        popover: true,
         color: '#f4fd3b',
     },
     defaults: {
