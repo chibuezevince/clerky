@@ -27,6 +27,11 @@ const contributeLinks = [
     <footer
         class="relative z-10 overflow-hidden border-t border-brand-border py-24"
     >
+        <div
+            class="pointer-events-none absolute right-8 bottom-0 text-[280px] leading-none font-bold text-white/[0.015] select-none md:right-16 lg:right-24"
+        >
+            Clerky
+        </div>
         <div class="mx-auto max-w-7xl px-8 md:px-16">
             <div class="mb-20 grid grid-cols-1 gap-12 md:grid-cols-3">
                 <div>

@@ -77,12 +77,19 @@ function compressComplaint(array $complaint) {
     return "{$complaint['key']}:{$complaint['value']}";
 }
 
-function clerkingAssistantPrompt(Clerking $clerking, string $compressedComplaint): string {
+function clerkingAssistantPrompt(Clerking $clerking, array $chiefComplaint): string {
+    $compressedComplaint = compressComplaint($chiefComplaint);
+
     $ageResponse = $clerking->ageResponse()->first();
     $sexResponse = $clerking->sexResponse()->first();
+
+    $otherComplaints = collect($clerking->presentingComplaints()->answer)
+        ->reject(fn($answer) => $answer['key'] === $chiefComplaint['key'])
+        ->map(fn($answer) => compressComplaint($answer))
+        ->implode('|');
 
     $age = $ageResponse?->value ?? 'unknown';
     $sex = $sexResponse?->value ?? 'unknown';
 
-    return "Presenting complaint: {$compressedComplaint}. Patient age: {$age} years. Patient sex: {$sex}.";
+    return "Presenting complaint: {$compressedComplaint}. Patient age: {$age} years. Patient sex: {$sex}. Other complaints(s): $otherComplaints";
 }

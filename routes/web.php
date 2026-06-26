@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\Oauth2Controller;
@@ -65,7 +66,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
         Route::get('/clerk/start', [ClerkingController::class, 'start'])->name('clerk.start');
         Route::get('/clerk/{unit:slug}', [ClerkingController::class, 'redirect'])->name('clerk.redirect');
         Route::get('/clerking/{clerking:session_id}', [ClerkingController::class, 'clerk'])
-            ->name('clerking');
+            ->name('clerk');
         Route::get('/clerking/{clerking:session_id}/summary', [ClerkingController::class, 'summary'])
             ->name('clerking.summary');
         Route::post('/clerking/{clerking:session_id}/summary/generate', [ClerkingController::class, 'generateSummary'])
@@ -85,6 +86,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
 
 
         Route::get('/cases', [CaseController::class, 'index'])->name('cases.all');
+        Route::delete('/cases/{clerking:session_id}', [CaseController::class, 'destroy'])->name('cases.destroy');
         Route::get('/search/clerkings', [CaseController::class, 'search'])->name('search.clerkings');
 
         Route::get('/contribute', [ContributeController::class, 'index'])->name('contribute');
@@ -118,10 +120,10 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     });
 
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
-        Route::get('/users', [\App\Http\Controllers\Admin\AdminController::class, 'users'])->name('users');
-        Route::patch('/users/{user}/toggle-contributor', [\App\Http\Controllers\Admin\AdminController::class, 'toggleContributor'])->name('users.toggle-contributor');
-        Route::delete('/users/{user}', [\App\Http\Controllers\Admin\AdminController::class, 'destroy'])->name('users.destroy');
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::patch('/users/{user}/toggle-contributor', [AdminController::class, 'toggleContributor'])->name('users.toggle-contributor');
+        Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
     });
 });
 
@@ -135,4 +137,10 @@ Route::middleware('auth')->group(function () {
         auth()->user()->unreadNotifications()->update(['read_at' => now()]);
         return back();
     })->name('notifications.read-all');
+});
+
+Route::get('/test', function () {
+    $clerking = Clerking::where('session_id', '597e54f6-bd33-4ec9-ad2d-3b2853298029')->first();
+
+    return ;
 });

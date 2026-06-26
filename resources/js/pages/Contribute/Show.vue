@@ -9,7 +9,7 @@ import {
     ComplaintTemplate,
     UnitQuestion,
 } from '@/types/dashboard'
-import { clerking, contribute } from '@/routes'
+import { contribute } from '@/routes'
 import { destroy } from '@/routes/contribute/question'
 import ConfirmDialog from '@/components/dashboard/ConfirmDialog.vue'
 import Alert from '@/components/Alert.vue'
@@ -78,13 +78,13 @@ const filteredSections = computed(() => {
     <Head :title="`Edit: ${template.name}`" />
 
     <div class="col-span-1 lg:col-span-2">
-        <div class="col-span-2 flex w-full flex-col gap-5 py-8">
+        <div class="col-span-2 flex w-full flex-col gap-5 pb-5">
             <div class="flex items-center justify-between">
                 <Link
                     :href="contribute()"
                     prefetch
                     view-transition
-                    class="flex w-fit items-center gap-1.5 font-semibold text-brand-gray transition-colors hover:text-neutral-50"
+                    class="flex w-fit items-center gap-1.5 font-semibold text-brand-gray transition-colors hover:text-neutral-50 lg:hidden"
                 >
                     <ArrowLeftCircle :size="25" />
                     Back to templates

@@ -52,6 +52,7 @@ class ContributeController extends Controller {
             'sex' => ['nullable', 'in:male,female,both'],
             'minimum_age' => ['nullable', 'numeric'],
             'maximum_age' => ['nullable', 'numeric'],
+            'max_char' => ['nullable', 'numeric']
         ]);
 
         $data = [];
@@ -123,6 +124,11 @@ class ContributeController extends Controller {
 
             $data['order'] = $newOrder;
         }
+
+        $data['max_char'] = 255;
+        
+        if ($request->max_char)
+            $data['max_char'] = $validated['max_char'];
 
         $question->update($data);
 

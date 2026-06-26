@@ -8,7 +8,7 @@ import {
 import { router } from '@inertiajs/vue3'
 import { computed, nextTick, ref } from 'vue'
 import { inputTypeLabels } from '@/data/constants'
-import { ChevronDown, GripVertical, Pencil, Trash2 } from '@lucide/vue'
+import { ChevronDown, GripVertical, Pencil, Trash2, Check } from '@lucide/vue'
 
 const props = defineProps<{
     sectionName: string

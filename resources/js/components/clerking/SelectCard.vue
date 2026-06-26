@@ -16,7 +16,6 @@ defineProps<{
         v-if="variant === 'desktop'"
         :href="redirect(unit.slug)"
         view-transition
-        prefetch
         class="animate-slide-up group relative flex items-center gap-6 rounded-4xl border border-white/5 bg-white/3 p-8 text-left transition-all duration-500 hover:-translate-y-1 hover:border-brand-yellow/25 hover:bg-white/5"
         :style="{ animationDelay: `${(index + 1) * 100}ms` }"
     >

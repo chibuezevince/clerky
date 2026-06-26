@@ -2,7 +2,6 @@
 import { glass, pillBtn } from '@/data/dashboard.js'
 import { computed } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
-import FormattedDate from './FormattedDate.vue'
 import Search from './Search.vue'
 import StatCard from './StatCard.vue'
 import NotificationBell from './NotificationBell.vue'
@@ -27,29 +26,21 @@ const shortEmail = computed(() => {
 })
 </script>
 <template>
-    <header :class="[glass, 'relative mt-5 p-5 sm:p-8']">
+    <header :class="[glass, 'relative p-5 sm:p-8 lg:mt-5']">
         <div class="relative flex flex-col gap-10">
             <div
-                class="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-4"
+                class="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8"
             >
-                <div
-                    class="flex items-center justify-center overflow-hidden lg:justify-start"
-                >
-                    <FormattedDate class="truncate lg:hidden" />
-                </div>
-
-                <div
-                    class="flex w-full min-w-0 items-center justify-center lg:w-full lg:max-w-115"
-                >
+                <div class="flex w-full min-w-0 items-center justify-center">
                     <Search />
                 </div>
 
                 <div
-                    class="flex shrink-0 items-center justify-center gap-4 sm:justify-end lg:justify-end"
+                    class="flex shrink-0 items-center justify-center gap-4 lg:justify-end"
                 >
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 lg:hidden">
                         <div
-                            class="hidden flex-col items-end gap-1 leading-none md:flex"
+                            class="hidden flex-col items-end gap-1 leading-none sm:flex"
                         >
                             <span
                                 class="text-[13px] font-bold tracking-tight whitespace-nowrap text-white"

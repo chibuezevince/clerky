@@ -119,7 +119,7 @@ const toggleSection = (id: string) => {
                     :title="item.label"
                     :href="item.url"
                     view-transition
-                    prefetch
+                    :prefetch="item.id !== 'logout'"
                     :class="[
                         'flex h-11 w-full shrink-0 cursor-pointer items-center justify-start gap-3 rounded-xl border px-3 transition-all',
                         activeNav === item.id

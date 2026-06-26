@@ -2,11 +2,15 @@
 import { statusConfig } from '@/data/constants'
 import { Clerking } from '@/types/dashboard'
 import { formatDate } from '@vueuse/core'
-import { Clock, User, CheckCircle2, ArrowRight } from '@lucide/vue'
+import { Clock, Trash2, User, CheckCircle2, ArrowRight } from '@lucide/vue'
 
 defineProps<{
     clerking: Clerking
     currentQuestionsCount: { count: number }
+}>()
+
+const emit = defineEmits<{
+    delete: [sessionId: string]
 }>()
 </script>
 
@@ -122,13 +126,22 @@ defineProps<{
                     }}
                 </span>
 
-                <div
-                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 transition-colors group-hover:border-brand-yellow/30 group-hover:bg-brand-yellow/10 sm:h-9 sm:w-9"
-                >
-                    <ArrowRight
-                        :size="16"
-                        class="text-white/30 transition-colors group-hover:text-brand-yellow"
-                    />
+                <div class="flex gap-3">
+                    <button
+                        @click.stop="emit('delete', clerking.session_id)"
+                        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-red-400/50 transition-colors hover:border-red-500/20 hover:bg-red-500/10 hover:text-red-400 sm:h-9 sm:w-9"
+                    >
+                        <Trash2 :size="14" />
+                    </button>
+
+                    <div
+                        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 transition-colors group-hover:border-brand-yellow/30 group-hover:bg-brand-yellow/10 sm:h-9 sm:w-9"
+                    >
+                        <ArrowRight
+                            :size="16"
+                            class="text-white/30 transition-colors group-hover:text-brand-yellow"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

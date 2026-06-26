@@ -34,6 +34,7 @@ const dependsOnAnswer = ref('')
 const sex = ref<'male' | 'female' | 'both'>('both')
 const minimumAge = ref<number | null>()
 const maximumAge = ref<number | null>()
+const maxChar = ref<number>(255)
 
 const questions = computed(() => {
     if (!sectionId.value) return []
@@ -116,6 +117,7 @@ watch(
         sex.value = question.sex ?? 'both'
         minimumAge.value = question.minimum_age ?? null
         maximumAge.value = question.maximum_age ?? null
+        maxChar.value = question.max_char
         dependsOnQuestionId.value = question.depends_on_section_question_id
             ? String(question.depends_on_section_question_id)
             : ''
@@ -147,6 +149,7 @@ const saveQuestion = () => {
         sex: sex.value,
         minimum_age: minimumAge.value,
         maximum_age: maximumAge.value,
+        max_char: maxChar.value,
     }
 
     if (isEditing.value) {
@@ -186,6 +189,7 @@ const cancelAdd = () => {
     kvPairs.value = [{ key: '', value: '' }]
     minimumAge.value = null
     maximumAge.value = null
+    maxChar.value = 255
     sex.value = 'both'
     if (isEditing.value) emit('close-edit')
 }
@@ -353,6 +357,20 @@ const cancelAdd = () => {
                     </p>
                 </div>
             </div>
+
+            <hr class="border-gray-700" />
+
+            <Input
+                v-model.number="maxChar"
+                label="Max characters"
+                placeholder="255"
+                type="number"
+            />
+            <p class="text-[11px]">
+                Limits the response length for text and textarea inputs. Leave
+                at default (255) for most questions, or increase for answers
+                that need more detail.
+            </p>
 
             <div class="flex items-center justify-end gap-2 pt-1">
                 <button

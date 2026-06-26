@@ -85,7 +85,7 @@ onUnmounted(() => toastListener())
 
 <template>
     <div
-        class="relative h-screen overflow-hidden bg-brand-bg px-6 font-sans text-neutral-50 max-[720px]:px-4 max-[720px]:pt-6"
+        class="relative h-screen overflow-hidden bg-brand-bg px-6 font-sans text-neutral-50 max-[720px]:px-4"
     >
         <div
             class="pointer-events-none absolute -top-40 left-[30%] h-125 w-125 rounded-full bg-brand-yellow opacity-[0.08] blur-[120px]"
@@ -103,12 +103,12 @@ onUnmounted(() => toastListener())
                 background-image:
                     linear-gradient(
                         to right,
-                        rgba(244, 253, 59, 0.25) 1px,
+                        rgba(255, 255, 255, 0.06) 1px,
                         transparent 1px
                     ),
                     linear-gradient(
                         to bottom,
-                        rgba(244, 253, 59, 0.25) 1px,
+                        rgba(255, 255, 255, 0.06) 1px,
                         transparent 1px
                     );
                 background-size: 140px 140px;
@@ -116,8 +116,20 @@ onUnmounted(() => toastListener())
         ></div>
 
         <div
-            class="custom-scroll relative mx-auto grid h-full max-w-400 grid-cols-[220px_1fr_340px] gap-5 overflow-y-auto max-[1100px]:grid-cols-[220px_1fr] max-[720px]:grid-cols-1 max-[720px]:pb-24"
+             scroll-region="" class="custom-scroll relative mx-auto grid h-full max-w-400 grid-cols-[220px_1fr_340px] gap-5 overflow-y-auto max-[1100px]:grid-cols-[220px_1fr] max-[720px]:grid-cols-1 max-[720px]:pt-14 max-[720px]:pb-24"
         >
+            <Link
+                href="/"
+                view-transition
+                prefetch
+                class="absolute top-0 left-0 z-10 hidden items-center gap-2 py-3 max-[720px]:flex"
+            >
+                <Logo
+                    :show-blur="false"
+                    :show-label="false"
+                />
+            </Link>
+
             <Sidebar
                 :nav-items="navItems"
                 :active-nav="activeNav"

@@ -110,8 +110,8 @@ class SectionQuestionController extends Controller {
             'sex' => ['nullable', 'in:male,female,both'],
             'minimum_age' => ['nullable', 'numeric'],
             'maximum_age' => ['nullable', 'numeric'],
+            'max_char' => ['nullable', 'numeric']
         ]);
-
         $data = [];
 
         if ($request->has('question'))
@@ -140,6 +140,10 @@ class SectionQuestionController extends Controller {
         if ($request->has('maximum_age'))
             $data['maximum_age'] = $validated['maximum_age'];
 
+        $data['max_char'] = 255;
+        if ($request->max_char)
+            $data['max_char'] = $validated['max_char'];
+
         if ($request->has('config')) {
             $config = $validated['config'] ?? [];
 
@@ -160,6 +164,8 @@ class SectionQuestionController extends Controller {
             $newOrder = (int) $validated['order'];
             $templateId = (int) $validated['template_id'];
 
+            $template = ClerkingTemplate::findorFail($templateId);
+
             $existingPivot = $template->sectionQuestions()
                 ->where('section_question_id', $question->id)
                 ->first();
@@ -170,8 +176,6 @@ class SectionQuestionController extends Controller {
                 : $question->clerking_section_id;
 
             if ($newOrder !== $oldOrder) {
-                $template = ClerkingTemplate::findOrFail($templateId);
-
                 $questionsInSection = $template->sectionQuestions()
                     ->where('clerking_section_id', $sectionId)
                     ->orderByPivot('order')

@@ -65,7 +65,7 @@ class Oauth2Controller extends Controller {
                     'email_verified_at' => $user->email_verified_at ?? now(),
                 ]);
 
-                auth()->guard()->login($user);
+                auth()->guard()->login($user, true);
             }
 
             $user->socialAccounts()->updateOrCreate(

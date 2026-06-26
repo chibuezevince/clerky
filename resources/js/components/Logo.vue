@@ -12,6 +12,7 @@ withDefaults(
 </script>
 <template>
     <div
+        v-if="showBlur"
         :class="['absolute inset-0 rounded-full transition-all duration-300', showBlur && 'group-hover:bg-brand-yellow/40 bg-brand-yellow/20 blur-md']"
     ></div>
     <div

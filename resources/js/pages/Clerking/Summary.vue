@@ -76,11 +76,17 @@ const selectMobileSection = (section: string) => {
     showSidebar.value = false
 }
 
+const loadingToastId = ref<number | string>('')
+
 const handleSummaryAction = () => {
     if (summaryState.value === 'ready') {
         router.visit(edit(props.clerking.session_id))
         return
     }
+
+    loadingToastId.value = toast.loading(
+        'Generating your summary; this may take a moment.',
+    )
 
     router.post(
         generate(props.clerking.session_id),
@@ -90,13 +96,23 @@ const handleSummaryAction = () => {
 }
 
 if (typeof window !== 'undefined') {
-    useEcho(`clerking.${props.clerking.session_id}`, '.summary.ready', () => {
-        router.reload({
-            onSuccess: () => {
-                toast.success('AI summary is ready.')
-            },
-        })
-    })
+    useEcho(
+        `clerking.${props.clerking.session_id}`,
+        '.summary.ready',
+        ({ generated }) => {
+            router.reload({
+                onSuccess: () => {
+                    if (loadingToastId.value)
+                        toast.dismiss(loadingToastId.value)
+                    generated
+                        ? toast.success('AI summary is ready.')
+                        : toast.error(
+                              'AI summary could not be generated. Please, try again.',
+                          )
+                },
+            })
+        },
+    )
 }
 </script>
 
@@ -104,7 +120,7 @@ if (typeof window !== 'undefined') {
     <Head title="Clerking Summary" />
 
     <div class="col-span-1 lg:col-span-2">
-        <div class="mx-auto max-w-5xl">
+        <div class="mx-auto mt-5 max-w-5xl">
             <div
                 :class="[
                     glass,
@@ -114,7 +130,10 @@ if (typeof window !== 'undefined') {
                 <div
                     class="hidden h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white/5 md:flex"
                 >
-                    <component :is="unitIcon" class="h-7 w-7 text-white/40" />
+                    <component
+                        :is="unitIcon"
+                        class="h-7 w-7 text-white/40"
+                    />
                 </div>
                 <div class="flex w-full flex-1 flex-col gap-1 md:w-auto">
                     <div
@@ -161,7 +180,7 @@ if (typeof window !== 'undefined') {
                     />
                     {{
                         summaryState === 'none'
-                            ? 'Generate AI Summary'
+                            ? 'Generate Summary'
                             : summaryState === 'generating'
                               ? 'Generating AI response...'
                               : 'View Summary'

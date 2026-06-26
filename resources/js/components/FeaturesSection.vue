@@ -31,7 +31,7 @@ const onCardMouseLeave = () => (hoveredCard.value = null)
                     Refining Clinical
                     <em
                         class="bg-linear-to-r from-brand-yellow via-yellow-200 to-brand-yellow bg-clip-text text-transparent italic"
-                        >Expertise</em
+                        >Clerking</em
                     >
                 </h2>
                 <div

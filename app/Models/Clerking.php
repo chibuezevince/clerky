@@ -186,7 +186,6 @@ class Clerking extends Model {
 
     public static function aiProviders() {
         return [
-            Lab::Ollama->value => 'gemma4:31b-cloud',
             Lab::DeepSeek->value => 'deepseek-v4-pro',
         ];
     }
@@ -202,7 +201,7 @@ class Clerking extends Model {
         return $this->hasOne(ClerkingResponse::class)
             ->whereHas(
                 'sectionQuestion',
-                fn($query) => $query->where('field_key', 'age')
+                fn($query) => $query->where('field_key', 'like', '%age%')
             );
     }
 
@@ -210,7 +209,20 @@ class Clerking extends Model {
         return $this->hasOne(ClerkingResponse::class)
             ->whereHas(
                 'sectionQuestion',
-                fn($query) => $query->where('field_key', 'sex')
+                fn($query) => $query->where('field_key', 'like', '%sex%')
             );
+    }
+
+    function deletePostComplaintResponses(Collection $oldPresentingComplaints) {
+        $newPresentingComplaints = $this->complaintTemplates();
+
+        $oldComplaintIds = array_column($oldPresentingComplaints->toArray(), 'id');
+        $newComplaintIds = array_column($newPresentingComplaints->toArray(), 'id');
+
+        $matches = array_intersect($oldComplaintIds, $newComplaintIds);
+
+        $postComplaintResponse = $this->responses()->whereHas('complaintTemplateQuestion', fn($query) => $query->whereNotIn('complaint_template_id', $matches))->get();
+
+        $postComplaintResponse->each(fn($response) => $response->delete());
     }
 }

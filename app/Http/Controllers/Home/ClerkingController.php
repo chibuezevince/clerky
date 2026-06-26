@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Jobs\GenerateSummary;
 use App\Jobs\GetNextSectionQuestions;
 use App\Models\Clerking;
-use App\Models\ClerkingSection;
 use App\Models\Patient;
 use App\Models\SectionQuestion;
 use App\Models\Unit;
@@ -41,7 +40,7 @@ class ClerkingController extends Controller {
             'started_at' => now(),
         ]);
 
-        return to_route('clerking', $clerking);
+        return to_route('clerk', $clerking);
     }
 
     function clerk(Clerking $clerking) {
@@ -188,6 +187,10 @@ class ClerkingController extends Controller {
             'completed_at' => now(),
         ]);
 
+        $presentingComplaintIds = $clerking->complaintTemplates()->pluck('id')->toArray();
+
+        $clerking->responses()->whereHas('complaintTemplateQuestion', fn($query) => $query->whereNotIn('complaint_template_id', $presentingComplaintIds))->delete();
+        
         return to_route('clerking.summary', $clerking);
     }
 

@@ -7,7 +7,11 @@ import { Search, Plus, Stethoscope } from '@lucide/vue'
 import { useDebounceFn } from '@vueuse/core'
 import type { Clerking } from '@/types/dashboard'
 import CaseCard from '@/components/cases/CaseCard.vue'
+import ConfirmDialog from '@/components/dashboard/ConfirmDialog.vue'
 import { start } from '@/routes/clerk'
+import { toast } from 'vue-sonner'
+import { all } from '@/routes/cases'
+import { clerk } from '@/routes'
 
 defineOptions({ layout: AppLayout })
 
@@ -17,10 +21,30 @@ const props = defineProps<{
 }>()
 
 const search = ref('')
+const confirmDelete = ref<string | null>(null)
+
+const promptDelete = (sessionId: string) => {
+    confirmDelete.value = sessionId
+}
+
+const confirmDeleteCase = () => {
+    if (!confirmDelete.value) return
+
+    router.delete(`/dashboard/cases/${confirmDelete.value}`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            confirmDelete.value = null
+            toast.success('Case deleted.')
+        },
+        onFinish: () => {
+            confirmDelete.value = null
+        },
+    })
+}
 
 const debouncedSearch = useDebounceFn((value: string) => {
     router.get(
-        '/dashboard/cases',
+        all(),
         { search: value || undefined },
         {
             preserveState: true,
@@ -49,7 +73,7 @@ const onSearchInput = (e: Event) => {
                 <h1
                     class="text-xl font-extrabold tracking-tight text-white md:text-2xl"
                 >
-                    Clerking Cases
+                    Cases
                 </h1>
                 <span
                     v-if="cases.data.length"
@@ -155,21 +179,35 @@ const onSearchInput = (e: Event) => {
             </template>
 
             <template v-else>
-                <Link
+                <div
                     v-for="clerking in cases.data"
                     :key="clerking.id"
                     :href="`/dashboard/clerking/${clerking.session_id}`"
-                    prefetch
-                    view-transition
-                    class="mt-2"
+                    class="mt-2 cursor-pointer"
                 >
                     <CaseCard
                         :clerking="clerking"
                         :current-questions-count="questionCount[clerking.id]"
+                        @delete="promptDelete"
+                        @click="
+                            router.get(
+                                clerk(clerking.session_id),
+                                {},
+                                { viewTransition: true },
+                            )
+                        "
                     />
-                </Link>
+                </div>
             </template>
         </InfiniteScroll>
+
+        <ConfirmDialog
+            :open="confirmDelete !== null"
+            title="Delete case"
+            message="Are you sure you want to delete this case? This action cannot be undone."
+            @confirm="confirmDeleteCase"
+            @cancel="confirmDelete = null"
+        />
 
         <Link
             v-if="cases.data.length"

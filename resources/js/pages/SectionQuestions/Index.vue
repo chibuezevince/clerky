@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { glass } from '@/data/dashboard.js'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Search, Layers, ArrowRight } from '@lucide/vue'
 import { useDebounceFn } from '@vueuse/core'
 import {
@@ -24,9 +24,8 @@ const props = defineProps<{
     templates: ClerkingTemplate[]
 }>()
 
-const search = ref(
-    new URLSearchParams(window.location.search).get('search') ?? '',
-)
+const search = ref('')
+onMounted(() => search.value = new URLSearchParams(window.location.search).get('search') ?? '')
 
 const filteredTemplates = computed(() => {
     if (!search.value) return props.templates

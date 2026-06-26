@@ -26,9 +26,7 @@ const emit = defineEmits<{
 watch(isSidebarOpen, (open) => {
     if (window.innerWidth < 1024) {
         document.body.style.overflow = open ? 'hidden' : ''
-        if (!open && props.editingQuestion) {
-            emit('close-edit')
-        }
+        if (!open && props.editingQuestion) emit('close-edit')
     }
 })
 

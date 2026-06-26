@@ -26,6 +26,10 @@ class SummaryGenerator implements Agent, HasStructuredOutput {
             Treat every section as important. Negative findings must be explicitly stated. Positive findings must be elaborated on.
             Do not say "no significant history" unless the data explicitly contains nothing — instead write out exactly what was asked and what was said.
 
+            Return ONLY valid JSON matching this schema — no markdown fences, no preamble:
+            
+            {"summary": "full clinical summary with markdown"}
+
             ## DISCIPLINE-AWARE STRUCTURE
 
             Adapt the summary structure based on the clinical discipline inferred from the data:

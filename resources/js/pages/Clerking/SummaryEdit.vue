@@ -116,7 +116,7 @@ const isActive = (name: string, attrs?: Record<string, unknown>) =>
     <Head title="Edit Summary" />
 
     <div class="col-span-1 lg:col-span-2">
-        <div class="mx-auto max-w-4xl">
+        <div class="mx-auto max-w-4xl mt-5">
             <div
                 :class="[
                     glass,

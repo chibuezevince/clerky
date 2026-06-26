@@ -50,7 +50,10 @@ const emit = defineEmits<{
 
 <style scoped>
 .modal-enter-active {
-    transition: opacity 0.2s ease-out;
+    transition: opacity 0.25s ease-out;
+}
+.modal-enter-active > :first-child {
+    transition: opacity 0.3s ease-out;
 }
 .modal-enter-active > :last-child {
     transition:
@@ -58,6 +61,9 @@ const emit = defineEmits<{
         opacity 0.2s ease-out;
 }
 .modal-leave-active {
+    transition: opacity 0.15s ease-in;
+}
+.modal-leave-active > :first-child {
     transition: opacity 0.15s ease-in;
 }
 .modal-leave-active > :last-child {
@@ -69,12 +75,18 @@ const emit = defineEmits<{
 .modal-enter-from {
     opacity: 0;
 }
+.modal-enter-from > :first-child {
+    opacity: 0;
+}
 .modal-enter-from > :last-child {
     transform: scale(0.95) translateY(8px);
     opacity: 0;
 }
 
 .modal-leave-to {
+    opacity: 0;
+}
+.modal-leave-to > :first-child {
     opacity: 0;
 }
 .modal-leave-to > :last-child {

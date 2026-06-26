@@ -39,6 +39,12 @@ class CaseController extends Controller {
         ]);
     }
 
+    function destroy(Clerking $clerking) {
+        $clerking->delete();
+
+        return redirect()->back();
+    }
+
     function search(Request $request) {
         // TODO
         $searchQuery = $request->query('q');

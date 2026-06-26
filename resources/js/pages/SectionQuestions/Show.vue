@@ -4,11 +4,7 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import { glass } from '@/data/dashboard.js'
 import { computed, ref } from 'vue'
 import { ArrowLeftCircle } from '@lucide/vue'
-import {
-    ClerkingSection,
-    ComplaintTemplate,
-    UnitQuestion,
-} from '@/types/dashboard'
+import { ClerkingSection, UnitQuestion } from '@/types/dashboard'
 import { index as sectionQuestionsIndex } from '@/routes/section-questions'
 import { destroy } from '@/routes/section-questions/question'
 import ConfirmDialog from '@/components/dashboard/ConfirmDialog.vue'
@@ -88,7 +84,7 @@ const filteredSections = computed(() => {
                     :href="sectionQuestionsIndex()"
                     prefetch
                     view-transition
-                    class="flex w-fit items-center gap-1.5 font-semibold text-brand-gray transition-colors hover:text-neutral-50"
+                    class="flex w-fit items-center gap-1.5 font-semibold text-brand-gray transition-colors hover:text-neutral-50 lg:hidden"
                 >
                     <ArrowLeftCircle :size="25" />
                     Back to templates

@@ -210,14 +210,16 @@ const clerkings = computed(() =>
                         Your recent clerkings<br />will appear here.
                     </div>
                 </div>
-                <button
-                    :class="[
-                        pillBtn,
-                        'border border-brand-yellow bg-brand-yellow px-6 text-brand-bg shadow-[0_0_24px_rgba(244,253,59,0.25)]',
-                    ]"
-                >
-                    Start Clerking
-                </button>
+                <Link :href="start()" view-transition prefetch>
+                    <button
+                        :class="[
+                            pillBtn,
+                            'border border-brand-yellow bg-brand-yellow px-6 text-brand-bg shadow-[0_0_24px_rgba(244,253,59,0.25)]',
+                        ]"
+                    >
+                        Start Clerking
+                    </button>
+                </Link>
             </div>
         </template>
     </div>

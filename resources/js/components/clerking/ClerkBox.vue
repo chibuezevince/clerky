@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { glass } from '@/data/dashboard.js'
 import { Answer, ClerkingSection, UnitQuestion } from '@/types/dashboard'
-import { Check, ChevronLeft, ChevronRight } from '@lucide/vue'
+import { Check, ChevronLeft, ChevronRight, LoaderCircle } from '@lucide/vue'
 import Input from '../form/Input.vue'
 import type { Component } from 'vue'
 import { computed, ref, watch } from 'vue'
@@ -24,7 +24,10 @@ const props = defineProps<{
     isPaused?: boolean
 }>()
 
-const emit = defineEmits(['next', 'previous'])
+const emit = defineEmits<{
+    (e: 'next', answer: string[] | string): void
+    (e: 'previous'): void
+}>()
 
 const componentMap = {
     text: Textarea,
@@ -55,6 +58,16 @@ const options = computed(() => {
     }))
 })
 
+const concluding = ref<boolean>(false)
+
+const nextButtonText = computed(() => {
+    return concluding.value
+        ? 'Concluding'
+        : props.isLastQuestion
+          ? 'Conclude'
+          : 'Next'
+})
+
 const question = computed(() => props.questions[props.currentQuestionIndex - 1])
 const inputProps = computed(() => {
     const q = question.value
@@ -82,6 +95,11 @@ const inputProps = computed(() => {
 const isOptional = computed(
     () => question.value.pivot && !question.value.pivot.is_required,
 )
+
+const dispatchNext = () => {
+    props.isLastQuestion && (concluding.value = true)
+    emit('next', answer.value)
+}
 
 watch(
     () => [props.currentQuestionIndex, props.questions],
@@ -200,20 +218,25 @@ watch(
                 Previous
             </button>
             <button
-                @click="emit('next', answer)"
+                @click="dispatchNext"
                 :disabled="isPaused"
                 class="group/next flex items-center gap-3 rounded-2xl bg-brand-yellow px-8 py-3.5 text-xs font-black text-black shadow-[0_12px_24px_rgba(244,253,59,0.15)] transition-all hover:scale-[1.02] hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
             >
-                {{ isLastQuestion ? 'Conclude' : 'Next' }}
+                {{ nextButtonText }}
                 <ChevronRight
-                    v-if="!isLastQuestion"
+                    v-if="!isLastQuestion && !concluding"
                     :size="18"
                     class="transition-transform group-hover/next:translate-x-1"
                 />
                 <Check
-                    v-else
+                    v-else-if="isLastQuestion && !concluding"
                     :size="18"
                     class="transition-transform group-hover/next:scale-110"
+                />
+                <LoaderCircle
+                    v-else
+                    :size="18"
+                    class="animate-spin transition-transform group-hover/next:scale-110"
                 />
             </button>
         </Motion>

@@ -2,15 +2,11 @@
 
 namespace App\Ai\Agents;
 
-use App\Models\ComplaintTemplate;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasStructuredOutput;
 use Laravel\Ai\Contracts\HasTools;
-use Laravel\Ai\Contracts\Tool;
-use Laravel\Ai\Enums\Lab;
-use Laravel\Ai\Messages\Message;
 use Laravel\Ai\Promptable;
 use Stringable;
 
@@ -60,6 +56,7 @@ class ClerkingAssistant implements Agent, Conversational, HasStructuredOutput, H
             - For each question, set "min_age" and "max_age" if the question is only relevant within a specific age range (null means no bound).
             - Set "sex" to "male", "female", or "both" depending on who the question applies to.
             - Do not generate a question at all if it is entirely irrelevant for the given patient's age and sex — filter it out completely.
+        14. Focus exclusively on the chief complaint given to you. If other complaints are listed, they are handled by their own dedicated templates — do NOT generate questions that overlap with them. Every question must be specific to the chief complaint. If a question would also apply to one of the other complaints (e.g. asking about fever duration when fever is a separate complaint), skip it — it will be covered by that complaint's own template. Do not produce generic or overlapping questions.
             
         Return ONLY valid JSON, no markdown, no preamble:
         {"questions": [

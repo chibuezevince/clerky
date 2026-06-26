@@ -23,7 +23,7 @@ defineProps<{
     >
         <div class="pointer-events-none fixed inset-0 z-0">
             <div
-                class="absolute inset-0 bg-[linear-gradient(to_right,rgba(244,253,59,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(244,253,59,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem]"
+                class="absolute inset-0 bg-[linear-gradient(to_right,rgba(244,253,59,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(244,253,59,0.08)_1px,transparent_1px)] bg-size-[4rem_4rem]"
             ></div>
             <div
                 class="absolute inset-0 bg-linear-to-b from-transparent via-brand-bg/50 to-brand-bg/95"

@@ -51,7 +51,6 @@ export const INPUT_TYPES: { label: string; value: InputType }[] = [
     { label: 'Scale', value: 'scale' },
     { label: 'Multi Select', value: 'multi_select' },
     { label: 'Number', value: 'number' },
-    { label: 'Key Value', value: 'key_value' },
 ]
 
 export const sexOptions: SelectOption[] = [

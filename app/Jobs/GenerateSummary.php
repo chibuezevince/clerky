@@ -8,6 +8,7 @@ use App\Models\Clerking;
 use App\Notifications\User\SummaryGenerated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use function React\Promise\Timer\timeout;
 
 class GenerateSummary implements ShouldQueue {
     use Queueable;
@@ -36,9 +37,10 @@ class GenerateSummary implements ShouldQueue {
         }
 
         try {
-            $result = (new SummaryGenerator)->prompt($prompt, provider: Clerking::aiProviders());
+            $result = (new SummaryGenerator)->prompt($prompt, provider: Clerking::aiProviders(), timeout: 300);
             
             $summary = $this->clerking->summary;
+
             $summary->update([
                 'content' => $result['summary'],
                 'generated_at' => now(),
@@ -49,14 +51,11 @@ class GenerateSummary implements ShouldQueue {
             $this->clerking->user->notify(new SummaryGenerated($this->clerking));
 
         } catch (\Throwable $e) {
-            $this->clerking->summary->update([
-                'content' => null,
-                'generated_at' => null,
-            ]);
+            $this->clerking->summary->delete();
 
             SummaryReady::dispatch($this->clerking, false);
 
-            report($e);
+            throw $e;
         }
     }
 }
