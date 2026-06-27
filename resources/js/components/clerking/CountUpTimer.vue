@@ -14,7 +14,7 @@ import { formattedTime } from '@/data/dashboard'
 import { Clock, Pause, Play } from '@lucide/vue'
 import { router } from '@inertiajs/vue3'
 
-const props = defineProps<{ clerking: Clerking }>()
+const props = defineProps<{ clerking: Clerking; processing?: boolean }>()
 const isPaused = inject<Ref<boolean>>(
     'isPaused',
     ref(props.clerking.started_at === null),
@@ -48,11 +48,10 @@ onMounted(() => {
     }, 1000)
 })
 
-onUnmounted(() => {
-    clearInterval(timer)
-})
+onUnmounted(() => clearInterval(timer))
 
 const toggle = () => {
+    if (props.processing) return
     isPaused.value = !isPaused.value
 }
 
@@ -124,9 +123,16 @@ watch(isPaused, (value) => {
 
         <button
             @click="toggle"
-            class="group/btn flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white transition-all hover:bg-white/10 active:scale-90 md:h-10 md:w-10"
-            :class="{ 'h-12 w-12': true }"
-            :title="isPaused ? 'Resume' : 'Pause'"
+            class="group/btn flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white transition-all active:scale-90 md:h-10 md:w-10"
+            :class="{
+                'h-12 w-12': true,
+                'cursor-not-allowed opacity-30 hover:bg-white/5': processing,
+                'hover:bg-white/10': !processing,
+            }"
+            :title="
+                processing ? 'Processing...' : isPaused ? 'Resume' : 'Pause'
+            "
+            :disabled="processing"
         >
             <component
                 :is="isPaused ? Play : Pause"

@@ -22,6 +22,7 @@ use App\Notifications\User\SummaryGenerated;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Laravel\Ai\Enums\Lab;
 
 Route::inertia('/', 'Home')->name('home');
 
@@ -137,10 +138,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/notifications/{notification}', [NotificationsController::class, 'destroy'])->name('notifications.destroy');
 });
 
-Route::get('/queue', function () {
-    Artisan::call('queue:work', ['--stop-when-empty' => true, '--max-time' => 30]);
-
-    return response()->json([
-        'output' => Artisan::output(),
-    ]);
+Route::get('/test', function () {
+    logger('shared: ' . sharedSectionsOffered());
+    logger('specialty: ' . sectionsOfferedCompressed());
+    Lab::Anthropic;
 });

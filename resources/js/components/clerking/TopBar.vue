@@ -8,6 +8,7 @@ import CountUpTimer from './CountUpTimer.vue'
 
 const props = defineProps<{
     clerking: Clerking
+    processing?: boolean
 }>()
 </script>
 
@@ -75,6 +76,9 @@ const props = defineProps<{
             </div>
         </div>
 
-        <CountUpTimer :clerking="props.clerking" />
+        <CountUpTimer
+            :clerking="props.clerking"
+            :processing="props.processing ?? props.clerking.is_processing"
+        />
     </div>
 </template>

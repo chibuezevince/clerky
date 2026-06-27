@@ -204,41 +204,66 @@ watch(
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
             :transition="{ delay: 0.3, duration: 0.4 }"
-            class="flex items-center justify-between gap-4 border-t border-white/5 pt-4"
+            class="flex flex-col gap-4 border-t border-white/5 pt-4"
         >
-            <button
-                @click="emit('previous')"
-                :disabled="isPaused"
-                class="group/prev flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-3.5 text-xs font-bold text-white transition-all hover:border-white/20 hover:bg-white/10 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+            <div
+                v-if="isPaused"
+                class="animate-pause-pulse text-center text-[12px] leading-relaxed font-medium tracking-wide text-brand-gray"
             >
-                <ChevronLeft
-                    :size="16"
-                    class="transition-transform group-hover/prev:-translate-x-1"
-                />
-                Previous
-            </button>
-            <button
-                @click="dispatchNext"
-                :disabled="isPaused"
-                class="group/next flex items-center gap-3 rounded-2xl bg-brand-yellow px-8 py-3.5 text-xs font-black text-black shadow-[0_12px_24px_rgba(244,253,59,0.15)] transition-all hover:scale-[1.02] hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
-            >
-                {{ nextButtonText }}
-                <ChevronRight
-                    v-if="!isLastQuestion && !concluding"
-                    :size="18"
-                    class="transition-transform group-hover/next:translate-x-1"
-                />
-                <Check
-                    v-else-if="isLastQuestion && !concluding"
-                    :size="18"
-                    class="transition-transform group-hover/next:scale-110"
-                />
-                <LoaderCircle
-                    v-else
-                    :size="18"
-                    class="animate-spin transition-transform group-hover/next:scale-110"
-                />
-            </button>
+                Timer paused - resume to continue
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <button
+                    @click="emit('previous')"
+                    :disabled="isPaused"
+                    class="group/prev flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-3.5 text-xs font-bold text-white transition-all hover:border-white/20 hover:bg-white/10 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                    <ChevronLeft
+                        :size="16"
+                        class="transition-transform group-hover/prev:-translate-x-1"
+                    />
+                    Previous
+                </button>
+
+                <button
+                    @click="dispatchNext"
+                    :disabled="isPaused"
+                    class="group/next flex items-center gap-3 rounded-2xl bg-brand-yellow px-8 py-3.5 text-xs font-black text-black shadow-[0_12px_24px_rgba(244,253,59,0.15)] transition-all hover:scale-[1.02] hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                    {{ nextButtonText }}
+                    <ChevronRight
+                        v-if="!isLastQuestion && !concluding"
+                        :size="18"
+                        class="transition-transform group-hover/next:translate-x-1"
+                    />
+                    <Check
+                        v-else-if="isLastQuestion && !concluding"
+                        :size="18"
+                        class="transition-transform group-hover/next:scale-110"
+                    />
+                    <LoaderCircle
+                        v-else
+                        :size="18"
+                        class="animate-spin transition-transform group-hover/next:scale-110"
+                    />
+                </button>
+            </div>
         </Motion>
     </div>
 </template>
+
+<style scoped>
+@keyframes pause-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+.animate-pause-pulse {
+    animation: pause-pulse 2s ease-in-out infinite;
+}
+</style>

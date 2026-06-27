@@ -29,7 +29,6 @@ import {
     transitionToSection,
 } from '@/data/functions'
 
-import { HPCslug } from '@/data/dashboard'
 import { complete } from '@/routes/clerking'
 import { noQuestionError } from '@/data/constants'
 
@@ -134,8 +133,8 @@ const handleNext = (answer: string | string[]) => {
             currentSection,
             nextSectionQuestions,
             previousSectionQuestions,
-            allQuestions,
             processing,
+            isPaused,
         })
 
         syncClerking({
@@ -191,8 +190,8 @@ const handleNext = (answer: string | string[]) => {
                     currentSection,
                     nextSectionQuestions,
                     previousSectionQuestions,
-                    allQuestions,
                     processing,
+                    isPaused,
                 })
 
                 syncClerking({
@@ -260,7 +259,8 @@ if (typeof window !== 'undefined') {
     useEcho(
         `clerking.${clerking.value.session_id}`,
         '.section.questions.ready',
-        ({ _, valid, previousSent }) => {
+        ({ valid, previousSent }) => {
+            isPaused.value = false
             if (!valid && !previousSent) {
                 undoAllQuestions()
                 handlePrevious()
@@ -285,6 +285,13 @@ if (typeof window !== 'undefined') {
         },
     )
 }
+
+if (typeof window !== 'undefined') {
+    window.addEventListener('questions-exists', () => {
+        processing.value = false
+        isPaused.value = false
+    })
+}
 </script>
 
 <template>
@@ -295,7 +302,10 @@ if (typeof window !== 'undefined') {
             class="grid grid-cols-1 items-start gap-5 md:gap-6 lg:grid-cols-[1fr_320px] xl:grid-cols-[1fr_340px] xl:gap-8"
         >
             <div class="flex flex-col gap-6 max-md:gap-4">
-                <TopBar :clerking="clerking" />
+                <TopBar
+                    :clerking="clerking"
+                    :processing="processing"
+                />
 
                 <div class="relative overflow-hidden">
                     <AnimatePresence

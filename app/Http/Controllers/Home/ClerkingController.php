@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Home;
 
 use App\Enums\User\ClerkingStatus;
+use App\Events\Clerk\SectionQuestionsReady;
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateComplaintQuestions;
 use App\Jobs\GenerateSummary;
-use App\Jobs\GetNextSectionQuestions;
 use App\Models\Clerking;
+use App\Models\ComplaintTemplate;
 use App\Models\Patient;
 use App\Models\SectionQuestion;
 use App\Models\Unit;
@@ -105,6 +107,7 @@ class ClerkingController extends Controller {
             'current_section_id' => 'sometimes|integer|exists:clerking_sections,id',
         ]);
 
+        $anyExists = false;
         if ($request->exists('answer') && $request->filled('question_id')) {
             $isComplaintQuestion = $request->boolean('is_complaint_question');
 
@@ -136,8 +139,12 @@ class ClerkingController extends Controller {
 
             if (!$isComplaintQuestion) {
                 $savedQuestion = SectionQuestion::find($request->question_id);
-                if ($savedQuestion && $savedQuestion->section->isPresentingComplaint())
-                    GetNextSectionQuestions::dispatch($clerking);
+
+                if (
+                    $savedQuestion
+                    && $savedQuestion->section->isPresentingComplaint()
+                )
+                    $anyExists = $this->orchestrateComplaintDispatch($clerking);
             }
         }
 
@@ -149,7 +156,38 @@ class ClerkingController extends Controller {
             $clerking->refresh();
         }
 
+        Inertia::flash('anyExists', $anyExists);
+
         return back();
+    }
+
+    private function orchestrateComplaintDispatch(Clerking $clerking) {
+        $presentingComplaint = $clerking->presentingComplaints();
+
+        $anyExists = false;
+
+        foreach ($presentingComplaint->answer as $complaint) {
+            $complaintTemplate = ComplaintTemplate::fuzzySearch($complaint['key'])->first();
+
+            if ($complaintTemplate && !$anyExists)
+                $anyExists = true;
+
+            if (!$complaintTemplate) {
+                $clerking->update(['is_processing' => true]);
+                GenerateComplaintQuestions::dispatch(
+                    $clerking,
+                    $complaint,
+                    $anyExists
+                )->onQueue('clerking');
+            }
+        }
+
+        if ($anyExists)
+            $clerking->update([
+                'is_processing' => false
+            ]);
+
+        return $anyExists;
     }
 
     private function storePatient(Clerking $clerking, int $questionId, string|array $answer) {
@@ -190,7 +228,7 @@ class ClerkingController extends Controller {
         $presentingComplaintIds = $clerking->complaintTemplates()->pluck('id')->toArray();
 
         $clerking->responses()->whereHas('complaintTemplateQuestion', fn($query) => $query->whereNotIn('complaint_template_id', $presentingComplaintIds))->delete();
-        
+
         return to_route('clerking.summary', $clerking);
     }
 
@@ -223,7 +261,7 @@ class ClerkingController extends Controller {
         if ($summary->content !== null)
             return back();
 
-        GenerateSummary::dispatch($clerking);
+        GenerateSummary::dispatch($clerking)->onQueue('summary');
 
         return back();
     }

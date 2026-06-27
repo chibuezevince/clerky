@@ -38,7 +38,7 @@ const props = defineProps<{
 
             <div class="flex flex-col gap-5">
                 <ul
-                    v-if="nextQuestions.length > 0"
+                    v-if="nextQuestions.length > 0 && !processing"
                     class="flex flex-col gap-4"
                 >
                     <AnimatePresence mode="popLayout">

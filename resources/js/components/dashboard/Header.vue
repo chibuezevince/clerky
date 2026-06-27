@@ -100,24 +100,26 @@ const shortEmail = computed(() => {
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 <StatCard
                     title="Total Cases"
-                    :value="String($page.props.casesClerked)"
-                    :delta="Number($page.props.clerkedDelta)"
+                    :value="String($page.props.casesClerked ?? 0)"
+                    :delta="Number($page.props.clerkedDelta ?? 0)"
                     :icon="ClipboardList"
                 />
 
                 <StatCard
                     title="Completion Rate"
                     :value="
-                        String(`${Math.round($page.props.completionRate)}%`)
+                        String(
+                            `${Math.round($page.props.completionRate ?? 0)}%`,
+                        )
                     "
-                    :delta="Number($page.props.rateDelta)"
+                    :delta="Number($page.props.rateDelta ?? 0)"
                     :icon="ChartPie"
                 />
 
                 <StatCard
                     title="Summaries"
-                    :value="String($page.props.summaries)"
-                    :delta="Number($page.props.summariesDelta)"
+                    :value="String($page.props.summaries ?? 0)"
+                    :delta="Number($page.props.summariesDelta ?? 0)"
                     :icon="Book"
                 />
 
@@ -126,14 +128,14 @@ const shortEmail = computed(() => {
                     :value="
                         (() => {
                             const total = Math.round(
-                                $page.props.avgCompletionTime,
+                                $page.props.avgCompletionTime ?? 0,
                             )
                             const hours = Math.floor(total / 60)
                             const mins = total % 60
                             return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`
                         })()
                     "
-                    :delta="Number($page.props.avgDelta)"
+                    :delta="Number($page.props.avgDelta ?? 0)"
                     :icon="Clock"
                 />
             </div>

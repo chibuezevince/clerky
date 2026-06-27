@@ -171,7 +171,7 @@ class Clerking extends Model {
                 return $complaint;
 
             return [
-                'key' => $template->name,
+                'key' => $template['name'],
                 'value' => $complaint['value'],
             ];
         });

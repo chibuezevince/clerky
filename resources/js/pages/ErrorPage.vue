@@ -2,11 +2,11 @@
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { AlertTriangle, ArrowLeft } from '@lucide/vue'
-import { glass } from '@/data/dashboard.js'
 import AppLayout from '@/layouts/AppLayout.vue'
 
 const props = defineProps<{
     status: number
+    isDown: boolean
 }>()
 
 const isAuthenticated = computed(() => !!usePage().props.auth?.user)
@@ -74,6 +74,7 @@ const error = computed(
                     </p>
                 </div>
                 <Link
+                    v-if="!isDown"
                     href="/dashboard"
                     view-transition
                     class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/10 active:scale-95"
@@ -117,6 +118,7 @@ const error = computed(
             <Link
                 href="/"
                 view-transition
+                v-if="!isDown"
                 class="relative flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/10 active:scale-95"
             >
                 <ArrowLeft :size="16" />

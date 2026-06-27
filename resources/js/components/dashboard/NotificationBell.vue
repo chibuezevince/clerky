@@ -46,9 +46,30 @@ const clearAll = () => {
 
 const toggle = () => (open.value = !open.value)
 
+const markAsReadBackground = (id: string) => {
+    const token = document
+        .querySelector('meta[name="csrf-token"]')
+        ?.getAttribute('content')
+
+    fetch(`/notifications/${id}/read`, {
+        method: 'PATCH',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'X-CSRF-TOKEN': token ?? '',
+        },
+    })
+}
+
 const handleNotificationClick = (notification: AppNotification) => {
-    if (!notification.read_at) markAsRead(notification.id)
-    if (notification.data?.url) router.get(notification.data.url)
+    if (!notification.read_at) {
+        markAsReadBackground(notification.id)
+    }
+
+    if (notification.data?.url) {
+        router.get(notification.data.url)
+    }
 }
 
 const handleClickOutside = (e: MouseEvent) => {

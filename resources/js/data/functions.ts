@@ -71,8 +71,8 @@ export const transitionToSection = (
         currentSection: Ref<ClerkingSection>
         nextSectionQuestions: Ref<UnitQuestion[]>
         previousSectionQuestions: Ref<UnitQuestion[]>
-        allQuestions: Ref<SectionQuestions>
         processing: Ref<boolean>
+        isPaused: Ref<boolean>
     },
 ) => {
     const {
@@ -80,8 +80,8 @@ export const transitionToSection = (
         currentQuestionIndex,
         questions,
         currentSection,
-        allQuestions,
         processing,
+        isPaused
     } = refs
 
     direction.value = 1
@@ -91,7 +91,7 @@ export const transitionToSection = (
 
     if (nextSection.slug === HPCslug) {
         processing.value = true
-        allQuestions.value = {}
+        isPaused.value = true
     }
 }
 
