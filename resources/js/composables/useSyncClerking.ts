@@ -10,9 +10,14 @@ export const useSyncClerking = (clerking: Ref<Clerking>) => {
         router.post(sync(clerking.value.session_id), payload, {
             preserveState: true,
             preserveScroll: true,
-            onFlash: ({ anyExists }) =>
+            onFlash: ({ anyExists, allQuestions }) => {
                 anyExists &&
-                window.dispatchEvent(new CustomEvent('questions-exists')),
+                    window.dispatchEvent(
+                        new CustomEvent('questions-exists', {
+                            detail: allQuestions,
+                        }),
+                    )
+            },
         })
     }, 500)
 

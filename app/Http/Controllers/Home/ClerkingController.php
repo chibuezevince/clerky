@@ -156,7 +156,10 @@ class ClerkingController extends Controller {
             $clerking->refresh();
         }
 
-        Inertia::flash('anyExists', $anyExists);
+        Inertia::flash([
+            'anyExists' => $anyExists,
+            'allQuestions' => $clerking->refresh()->all_questions
+        ]);
 
         return back();
     }

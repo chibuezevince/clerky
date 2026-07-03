@@ -287,7 +287,9 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof window !== 'undefined') {
-    window.addEventListener('questions-exists', () => {
+    window.addEventListener('questions-exists', (event: Event) => {
+        allQuestions.value = (event as CustomEvent<SectionQuestions>).detail
+        questions.value = allQuestions.value[`sn-${currentSection.value.id}`]
         processing.value = false
         isPaused.value = false
     })
