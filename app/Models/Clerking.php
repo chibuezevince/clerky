@@ -186,7 +186,7 @@ class Clerking extends Model {
 
     public static function aiProviders() {
         return [
-            Lab::DeepSeek->value => 'deepseek-v4-pro',
+            Lab::OpenRouter->value => 'qwen/qwen3.7-plus',
         ];
     }
 

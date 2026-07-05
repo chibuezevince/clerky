@@ -13,8 +13,8 @@ use Laravel\Ai\Enums\Lab;
 use Laravel\Ai\Promptable;
 use Stringable;
 
-#[Provider(Lab::DeepSeek)]
-#[Model('deepseek-v4-flash')]
+#[Provider(Lab::OpenRouter)]
+#[Model('qwen/qwen3.7-plus')]
 class ClerkingAssistant implements Agent, Conversational, HasStructuredOutput, HasTools {
     use Promptable;
 
