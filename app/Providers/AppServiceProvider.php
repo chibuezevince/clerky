@@ -21,7 +21,6 @@ class AppServiceProvider extends ServiceProvider {
     public function boot(): void {
         $this->configureDefaults();
 
-        
         RateLimiter::for(
             'action',
             fn(Request $request) => Limit::perMinute(10)
