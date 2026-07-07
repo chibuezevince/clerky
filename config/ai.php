@@ -124,6 +124,12 @@ return [
             'url' => env('OPENAI_URL', 'https://api.openai.com/v1'),
         ],
 
+        'qwen' => [
+            'driver' => 'openai',
+            'key' => env('QWEN_API_KEY'),
+            'url' => env('QWEN_URL', 'https://dashscope.aliyuncs.com/compatible-mode/v1'),
+        ],
+
         'openrouter' => [
             'driver' => 'openrouter',
             'key' => env('OPENROUTER_API_KEY'),

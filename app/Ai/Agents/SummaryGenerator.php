@@ -7,12 +7,11 @@ use Laravel\Ai\Attributes\Model;
 use Laravel\Ai\Attributes\Provider;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\HasStructuredOutput;
-use Laravel\Ai\Enums\Lab;
 use Laravel\Ai\Promptable;
 use Stringable;
 
-#[Provider(Lab::OpenRouter)]
-#[Model('qwen/qwen3.7-plus')]
+#[Provider('qwen')]
+#[Model('qwen-plus')]
 
 class SummaryGenerator implements Agent, HasStructuredOutput {
     use Promptable;
