@@ -13,11 +13,14 @@ Clerky is a structured clinical documentation tool that guides medical students 
 
 It's built to make clinical training more consistent, thorough, and educationally meaningful.
 
+Clerky is open-source under the [MIT License](LICENSE.md).
+
 ---
 
 ## Features
 
 ### Structured Clerking Sessions
+
 - Step-by-step question navigation tailored to the patient's complaint
 - Skip logic for dependent questions; only relevant questions are shown
 - Backward navigation with full question history
@@ -25,27 +28,32 @@ It's built to make clinical training more consistent, thorough, and educationall
 - Pauseable elapsed timer to track clerking duration
 
 ### AI-Powered Assistance
+
 - **AI Follow-Up Questions**; when a complaint has no template match, AI generates contextually relevant follow-up questions
 - **Clinical Summary Generation**; AI produces a structured clinical summary from your clerking session
 - Discipline-aware section ordering (e.g. surgical vs medical history flow)
 - Prompt caching for token-efficient AI calls
 
 ### Complaint Templates
+
 - Curated question templates per complaint
 - Fuzzy matching to find the closest template for any complaint
 - Drag-to-reorder questions within sections
 - Conditional question logic via `depends_on` relationships
 
 ### Patient-Aware Filtering
+
 - Questions filtered by patient age and sex
 - Age range (`min_age`, `max_age`) and sex (`male`, `female`, `both`) per question
 - Ensures clinically appropriate question sets for each patient
 
 ### Contribution System
+
 - Verified contributors can submit and improve question templates
 - Contribution tracking with verification status per question
 
 ### Mobile-First UI
+
 - Contextual bottom dock navigation with drill-down
 - Liquid glass styling with spring physics animations
 - `h-dvh` viewport fix for mobile browsers
@@ -55,21 +63,22 @@ It's built to make clinical training more consistent, thorough, and educationall
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Backend | Laravel (PHP) |
-| Frontend | Vue 3 + TypeScript + Inertia.js |
-| Styling | Tailwind CSS |
-| Real-time | Laravel Reverb (WebSockets) |
-| Database | MySQL |
-| Queue | Laravel Queues + Supervisor |
-| Hosting | VPS (Coolify) |
+| Layer     | Technology                      |
+| --------- | ------------------------------- |
+| Backend   | Laravel (PHP)                   |
+| Frontend  | Vue 3 + TypeScript + Inertia.js |
+| Styling   | Tailwind CSS                    |
+| Real-time | Laravel Reverb (WebSockets)     |
+| Database  | MySQL                           |
+| Queue     | Laravel Queues + Supervisor     |
+| Hosting   | VPS (Coolify)                   |
 
 ---
 
 ## Getting Started
 
 ### Requirements
+
 - PHP 8.2+
 - Node.js 18+
 - MySQL
@@ -96,6 +105,7 @@ php artisan serve
 ```
 
 ### Queue Worker
+
 ```bash
 php artisan queue:work
 ```
