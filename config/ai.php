@@ -24,7 +24,7 @@ return [
         'qwen' => [
             'driver' => 'openai',
             'key' => env('QWEN_API_KEY'),
-            'url' => env('QWEN_URL', 'https://ws-z9t0bbqqica037ao.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1'),
+            'url' => env('QWEN_URL', 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1'),
         ],
     ],
 
